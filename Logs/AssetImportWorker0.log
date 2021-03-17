@@ -254,3 +254,27 @@ Received Import Request.
 Start importing Assets/Scripts/BoardBuilding/UnitCube.cs using Guid(5e0b5218bc2260140a668a03f4065797) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '54794aebc280e5295730b2e7a649f524') in 0.009683 seconds
   Import took 0.015109 seconds .
 
+========================================================================
+Received Import Request.
+  Time since last request: 3546.519236 seconds.
+  path: Assets/Materials/UnitCubeDefaultInRange.mat
+  artifactKey: Guid(0d618fd91b763704caa771d4157f871a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Materials/UnitCubeDefaultInRange.mat using Guid(0d618fd91b763704caa771d4157f871a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b204314cce9b4da4b1e1152285994a12') in 0.129668 seconds
+  Import took 0.133763 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000310 seconds.
+  path: Assets/Materials/UnitCubeDefaultSelected.mat
+  artifactKey: Guid(eca80947dc7166445a6cfa5bd0738202) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Materials/UnitCubeDefaultSelected.mat using Guid(eca80947dc7166445a6cfa5bd0738202) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1a3c2f519a4ebbb2aa947b8b4f9fc3c6') in 0.024053 seconds
+  Import took 0.027399 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000304 seconds.
+  path: Assets/Materials/UnitCubeDefaultMaterial.mat
+  artifactKey: Guid(a99de3eedaedc3f4ab119f3d86bc0c60) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Materials/UnitCubeDefaultMaterial.mat using Guid(a99de3eedaedc3f4ab119f3d86bc0c60) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e8dd89378cf5bd681df4569c2867dbdb') in 0.028946 seconds
+  Import took 0.032887 seconds .
+
