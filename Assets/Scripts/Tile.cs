@@ -18,12 +18,18 @@ namespace TurnBasedStrategy.Gameplay
         wall
     }
 
+    /// <summary>
+    /// Class for each tile in the map
+    /// </summary>
     public class Tile : MonoBehaviour
     {
         [Header("Data")]
+        //type of tile, determines what can move on it
         [SerializeField] TileType tileType;
         [Header("Selection sprite")]
+        //reference to sprite renderer of selection
         [SerializeField] SpriteRenderer spriteRenderer;
+        //sprites for the different selection states
         [SerializeField] Sprite selectedSprite, unitSelectionSprite, movementSprite;
         
         SelectionState selectionState = SelectionState.none;
@@ -32,26 +38,38 @@ namespace TurnBasedStrategy.Gameplay
         
 
         [HideInInspector]
+        //variables for each of the tiles neighbours
         public Tile upTile, rightTile, downTile, leftTile;
+        //counter used for finding tiles a unit can walk to
         [HideInInspector] public int stepCheck;
 
+        //unit currently on this tile, null means no unit
         public Unit CurrentUnit { get; private set; }
 
         #region selection
         private void Start()
         {
+            //disable the selection sprite
             spriteRenderer.gameObject.SetActive(false);
         }
 
         private void OnMouseUp()
         {
+            //tell the map instance to select this tile
             Map.instance.OnClickTile(this, selectionState);
         }
 
+        /// <summary>
+        /// Set the selection state of this tile and change what sprite is showing over it
+        /// </summary>
+        /// <param name="_state">selection state to set this tile to</param>
         public void SetSelectionState(SelectionState _state)
         {
+            //set the selection state of the tile
             selectionState = _state;
+            //enable the sprite renderer for selection
             spriteRenderer.gameObject.SetActive(true);
+            //set the selection sprite based on the state
             switch (_state)
             {
                 case SelectionState.none:
@@ -70,15 +88,22 @@ namespace TurnBasedStrategy.Gameplay
         }
         #endregion
 
-        #region unit
+        #region units
+        /// <summary>
+        /// Sets the unit stored on this tile
+        /// </summary>
+        /// <param name="_unit">unit on the tile</param>
         public void SetUnit(Unit _unit) => CurrentUnit = _unit;
 
+        /// <summary>
+        /// removes the unit from the tile
+        /// </summary>
         public void RemoveUnit() => CurrentUnit = null;
 
-        #endregion
-
-        #region move options
-
+        /// <summary>
+        /// if there is a unit on this tile, calculate all of the locations it can move to
+        /// </summary>
+        /// <returns></returns>
         public List<Tile> CalculateUnitMovementTiles()
         {
             if (!CurrentUnit) return new List<Tile>();
@@ -87,5 +112,6 @@ namespace TurnBasedStrategy.Gameplay
         }
 
         #endregion
+
     }
 }
