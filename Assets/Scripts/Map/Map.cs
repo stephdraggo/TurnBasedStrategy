@@ -11,8 +11,10 @@ namespace TurnBasedStrategy.Gameplay
     {
         // size of the grid, must be equal to grid of tiles in scene
         [SerializeField] int gridSizeX, gridSizeY;
+        public Vector2Int GridSize => new Vector2Int(gridSizeX, gridSizeY);
         //2D array that holds all tiles at their position
         Tile[,] tiles;
+        public Tile[,] Tiles => tiles;
         //list that holds every tile
         List<Tile> tileList = new List<Tile>();
         
@@ -25,15 +27,15 @@ namespace TurnBasedStrategy.Gameplay
         public static Map instance;
         private void Awake()
         {
-            if (!instance) instance = this;
+            if (!instance)
+            {
+                instance = this;
+                SetupTiles();
+            }
             else Destroy(gameObject);
         }
 
         #region tile setup
-        private void Start()
-        {
-            SetupTiles();
-        }
         /// <summary>
         /// Sets up the tile array based on children of the object this script is on, and initialises the tiles
         /// </summary>
@@ -98,6 +100,7 @@ namespace TurnBasedStrategy.Gameplay
                 //already selected - deselect the tile
                 case SelectionState.selected:
                 case SelectionState.ShowUnitSelection:
+                case SelectionState.showEnemyMovement:
                     Deselect();
                     break;
 
@@ -132,12 +135,16 @@ namespace TurnBasedStrategy.Gameplay
 
             //select tile
             selectedTile = _tile;
-            _tile.SetSelectionState(SelectionState.ShowUnitSelection);
+            //check if the unit is on the player team
+            bool isPlayerUnit = selectedTile.CurrentUnit.GetTeam() == UnitTeam.player;
+            //set the tile the unit is on to display based on whether the unit is on the player team
+            _tile.SetSelectionState(isPlayerUnit ? SelectionState.ShowUnitSelection : SelectionState.showEnemyMovement);
 
             //get all tiles the unit can move to, display them as moveable and add them to the movementTiles list
             foreach(Tile tile in _tile.CalculateUnitMovementTiles())
             {
-                tile.SetSelectionState(SelectionState.showMovement);
+                //if the unit is on the player team, select them as moveable tiles, otherwise just display them
+                tile.SetSelectionState(isPlayerUnit ? SelectionState.showMovement : SelectionState.showEnemyMovement);
                 movementTiles.Add(tile);
             }
         }

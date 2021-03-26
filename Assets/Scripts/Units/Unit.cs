@@ -8,22 +8,26 @@ namespace TurnBasedStrategy.Gameplay
 {
     public enum UnitTeam
     {
-        ally,
+        player,
         enemy
     }
     /// <summary>
     /// Class for each ally or enemy unit on the map
     /// </summary>
-    public class Unit : MonoBehaviour
+    public abstract class Unit : MonoBehaviour
     {
-        [Header("Data")]
-        //which team the unit is on, units can only walk through other units on the same team
-        [SerializeField] UnitTeam team = UnitTeam.ally;
-        [Header("Movement")]
+        public abstract UnitTeam GetTeam();
+        [Header("Start position")]
         //tile this unit will go to when it is created
-        [SerializeField] Tile startTile;
+        [SerializeField] int startTileX;
+        [SerializeField] int startTileY;
+        Tile startTile;
+        [Header("Stats")]
+        [SerializeField] int health = 5;
+        [SerializeField] int attackDamage = 3;
         //how many tiles this unit can move in a turn
         [SerializeField] int movement;
+        [Header("Walkable Tiles")]
         //List of all tiles this unit can walk on
         [SerializeField] List<TileType> walkableTiles = new List<TileType>() { TileType.water };
         //tile the unit is currently on
@@ -31,16 +35,16 @@ namespace TurnBasedStrategy.Gameplay
 
         private void Start()
         {
-            //go to the starting tile
-            if (!startTile) throw new Exception("Start tile must be set for units");
-            GoToTile(startTile);
+            GoToStartTile();
         }
+
+        #region movement
 
         /// <summary>
         /// remove the unit from the current tile and teleport it to the new one
         /// </summary>
         /// <param name="_tile">Tile to move to</param>
-        private void GoToTile(Tile _tile)
+        protected void GoToTile(Tile _tile)
         {
             if (currentTile) currentTile.RemoveUnit();
             currentTile = _tile;
@@ -57,9 +61,26 @@ namespace TurnBasedStrategy.Gameplay
             GoToTile(_tile);
         }
 
+        /// <summary>
+        /// Moves the unit to its starting position
+        /// </summary>
+        void GoToStartTile()
+        {
+            //if the starting point is off the map, put it back on
+            if (startTileX < 0) startTileX = 0;
+            else if (startTileX >= Map.instance.GridSize.x) startTileX = Map.instance.GridSize.x - 1;
+            if (startTileY < 0) startTileY = 0;
+            else if (startTileY >= Map.instance.GridSize.y) startTileY = Map.instance.GridSize.y - 1;
 
+            //set the starting tile
+            startTile = Map.instance.Tiles[startTileX, startTileY];
 
-        #region calculate movement
+            //go to starting tile
+            GoToTile(startTile);
+        }
+        #endregion
+
+        #region calculate moveable tiles
         /// <summary>
         /// finds every tile this unit can move to and returns it as a list of tiles
         /// </summary>
@@ -100,7 +121,7 @@ namespace TurnBasedStrategy.Gameplay
                 if (!tileList.Contains(_tile)) tileList.Add(_tile);
             }
             //if there is a unit on this tile not on the same team as this one, return
-            else if (tileUnit.team != this.team) return;
+            else if (tileUnit.GetTeam() != this.GetTeam()) return;
             //(if the tile contains an ally unit, the tile won't be added to the list but the checker will continue for tiles past the ally)
 
             //the stepCheck of a tile defaults at 0, so if there are not enough steps left return and dont check any further tiles
@@ -140,5 +161,17 @@ namespace TurnBasedStrategy.Gameplay
         
 
         #endregion
+
+        public void TakeDamage(int _damage)
+        {
+            health -= _damage;
+            if (health <= 0) Death();
+        }
+
+        void Death()
+        {
+            currentTile.RemoveUnit();
+            Destroy(gameObject);
+        }
     }
 }

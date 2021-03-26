@@ -52,6 +52,7 @@ MonoBehaviour:
   selectedSprite: {fileID: 21300000, guid: ad2941e06468d5947ab9a31a90eab7ce, type: 3}
   unitSelectionSprite: {fileID: 21300000, guid: b0a34ac86303a7e4b96646efcccb48c7, type: 3}
   movementSprite: {fileID: 21300000, guid: 245aad61479430b4695bf33f4a629ddd, type: 3}
+  enemyMovementSprite: {fileID: 21300000, guid: 1126717fa36a25742aff6be5605ccd69, type: 3}
   upTile: {fileID: 0}
   rightTile: {fileID: 0}
   downTile: {fileID: 0}
