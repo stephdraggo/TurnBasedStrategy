@@ -10,6 +10,7 @@ namespace TurnBasedStrategy.Gameplay
         selected,
         ShowUnitSelection,
         showMovement,
+        showAttack,
         showEnemyMovement
     }
 
@@ -31,7 +32,7 @@ namespace TurnBasedStrategy.Gameplay
         //reference to sprite renderer of selection
         [SerializeField] SpriteRenderer spriteRenderer;
         //sprites for the different selection states
-        [SerializeField] Sprite selectedSprite, unitSelectionSprite, movementSprite, enemyMovementSprite;
+        [SerializeField] Sprite selectedSprite, unitSelectionSprite, movementSprite, attackSprite, enemyMovementSprite;
         
         SelectionState selectionState = SelectionState.none;
 
@@ -84,6 +85,9 @@ namespace TurnBasedStrategy.Gameplay
                     break;
                 case SelectionState.showMovement:
                     spriteRenderer.sprite = movementSprite;
+                    break;
+                case SelectionState.showAttack:
+                    spriteRenderer.sprite = attackSprite;
                     break;
                 case SelectionState.showEnemyMovement:
                     spriteRenderer.sprite = enemyMovementSprite;

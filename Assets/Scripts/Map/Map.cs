@@ -4,11 +4,17 @@ using UnityEngine;
 
 namespace TurnBasedStrategy.Gameplay
 {
+    
+
     /// <summary>
     /// Singleton class that holds all the tiles and controls selections
     /// </summary>
     public class Map : MonoBehaviour
     {
+        //whether the player is selecting units to move or to attack
+        enum MapMode { selectMode, attackMode }
+        MapMode mapMode = MapMode.selectMode;
+
         // size of the grid, must be equal to grid of tiles in scene
         [SerializeField] int gridSizeX, gridSizeY;
         public Vector2Int GridSize => new Vector2Int(gridSizeX, gridSizeY);
@@ -20,10 +26,11 @@ namespace TurnBasedStrategy.Gameplay
         
         //currently selected tile, null means no tile is selected
         Tile selectedTile = null;
-        //list of all tiles showing where a unit can move
-        List<Tile> movementTiles = new List<Tile>();
 
-        //instance
+        //list of all tiles displaying to deselect with the current tile
+        List<Tile> otherDisplayedTiles = new List<Tile>();
+
+        #region instance
         public static Map instance;
         private void Awake()
         {
@@ -34,6 +41,7 @@ namespace TurnBasedStrategy.Gameplay
             }
             else Destroy(gameObject);
         }
+        #endregion
 
         #region tile setup
         /// <summary>
@@ -99,17 +107,26 @@ namespace TurnBasedStrategy.Gameplay
 
                 //already selected - deselect the tile
                 case SelectionState.selected:
-                case SelectionState.ShowUnitSelection:
                 case SelectionState.showEnemyMovement:
                     Deselect();
                     break;
 
                 //tile showing movement, move the current unit to the tile
+                case SelectionState.ShowUnitSelection:
                 case SelectionState.showMovement:
                     ClickMovementTile(_tile);
                     break;
+
+                //tile with a unit that can be attacked, attack the unit
+                case SelectionState.showAttack:
+                    ClickAttackTile(_tile);
+                    break;
             }
         }
+
+        #endregion
+
+        #region deselecting tile
 
         /// <summary>
         /// Selects a tile
@@ -124,42 +141,6 @@ namespace TurnBasedStrategy.Gameplay
             selectedTile = _tile;
             _tile.SetSelectionState(SelectionState.selected);
         }
-        /// <summary>
-        /// Selects a unit
-        /// </summary>
-        /// <param name="_tile">Tile containing the unit</param>
-        void ClickUnit(Tile _tile)
-        {
-            //deselect current tile
-            Deselect();
-
-            //select tile
-            selectedTile = _tile;
-            //check if the unit is on the player team
-            bool isPlayerUnit = selectedTile.CurrentUnit.GetTeam() == UnitTeam.player;
-            //set the tile the unit is on to display based on whether the unit is on the player team
-            _tile.SetSelectionState(isPlayerUnit ? SelectionState.ShowUnitSelection : SelectionState.showEnemyMovement);
-
-            //get all tiles the unit can move to, display them as moveable and add them to the movementTiles list
-            foreach(Tile tile in _tile.CalculateUnitMovementTiles())
-            {
-                //if the unit is on the player team, select them as moveable tiles, otherwise just display them
-                tile.SetSelectionState(isPlayerUnit ? SelectionState.showMovement : SelectionState.showEnemyMovement);
-                movementTiles.Add(tile);
-            }
-        }
-        /// <summary>
-        /// Moves the current unit to the selected tile
-        /// </summary>
-        /// <param name="_tile">Tile to move the unit to</param>
-        void ClickMovementTile(Tile _tile)
-        {
-            //move the unit on the currently selected tile to the tile
-            selectedTile.CurrentUnit.MoveToTile(_tile);
-
-            //deselect tile
-            Deselect();
-        }
 
         /// <summary>
         /// Deselects all tiles
@@ -169,14 +150,135 @@ namespace TurnBasedStrategy.Gameplay
             //deselect the current tile
             if (selectedTile) selectedTile.SetSelectionState(SelectionState.none);
 
-            //if movement is showing, deselect all movement tiles
-            if (movementTiles.Count > 0)
+            //if other tiles are showing, deselect them
+            if (otherDisplayedTiles.Count > 0)
             {
-                foreach (Tile tile in movementTiles) tile.SetSelectionState(SelectionState.none);
-                movementTiles.Clear();
+                foreach (Tile tile in otherDisplayedTiles) tile.SetSelectionState(SelectionState.none);
+                otherDisplayedTiles.Clear();
             }
+
+            //if the mode is attack mode, set the mode back and end the current units action
+            if (mapMode == MapMode.attackMode)
+            {
+                mapMode = MapMode.selectMode;
+
+                if (selectedTile.CurrentUnit) selectedTile.CurrentUnit.EndAction();
+            }
+
+
             selectedTile = null;
         }
+
+        #endregion
+
+        #region select unit
+        /// <summary>
+        /// Selects a unit
+        /// </summary>
+        /// <param name="_tile">Tile containing the unit</param>
+        void ClickUnit(Tile _tile)
+        {
+            //deselect current tile
+            Deselect();
+
+            //check if the unit is on the player team
+            bool isPlayerUnit = _tile.CurrentUnit.GetTeam() == UnitTeam.player;
+
+            //if the unit is on the player team and has already acted, instead just select the tile
+            if (isPlayerUnit && _tile.CurrentUnit.Acted)
+            {
+                ClickEmptyTile(_tile);
+                return;
+            }
+
+            //select tile
+            selectedTile = _tile;
+
+            //set the tile the unit is on to display based on whether the unit is on the player team
+            _tile.SetSelectionState(isPlayerUnit ? SelectionState.ShowUnitSelection : SelectionState.showEnemyMovement);
+
+            //get all tiles the unit can move to, display them as moveable and add them to the other displayed tiles list
+            foreach (Tile tile in _tile.CalculateUnitMovementTiles())
+            {
+                //if the unit is on the player team, select them as moveable tiles, otherwise just display them
+                tile.SetSelectionState(isPlayerUnit ? SelectionState.showMovement : SelectionState.showEnemyMovement);
+                otherDisplayedTiles.Add(tile);
+            }
+
+        }
+
+        #endregion
+
+        #region selecting movement/attack
+
+        /// <summary>
+        /// Moves the current unit to the selected tile
+        /// </summary>
+        /// <param name="_tile">Tile to move the unit to</param>
+        void ClickMovementTile(Tile _tile)
+        {
+            //get the unit being moved
+            Unit unit = selectedTile.CurrentUnit;
+
+            //deselect tile
+            Deselect();
+
+            //move the unit on the currently selected tile to the tile
+            unit.MoveToTile(_tile);
+
+            //get the enemies adjacent to this unit
+            List<Tile> rangeTiles = unit.EnemiesInRange();
+            if (rangeTiles.Count > 0)
+            {
+                //select the new tile the unit is at
+                selectedTile = _tile;
+
+                //set the mode to attack mode, which will mean the units turn will end when deselected
+                mapMode = MapMode.attackMode;
+
+                //there are enemies in range, so display the tiles that can be attacked
+                foreach (Tile tile in rangeTiles)
+                {
+                    tile.SetSelectionState(SelectionState.showAttack);
+                    otherDisplayedTiles.Add(tile);
+                }
+            }
+            //there are no enemies in range, end this units action
+            else unit.EndAction();
+        }
+
+        /// <summary>
+        /// Attacks the unit on the given tile with the unit on the current tile
+        /// </summary>
+        /// <param name="_tile">Tile to attack</param>
+        void ClickAttackTile(Tile _tile)
+        {
+            //if there is not a unit on the current tile or selected tile, deselect the tile and return
+            if (!selectedTile.CurrentUnit || !_tile.CurrentUnit) 
+            {
+                Deselect();
+                return;
+            }
+
+            //get the unit doing the attack
+            Unit unit = selectedTile.CurrentUnit;
+
+            //attack the unit on the selected tile
+            unit.AttackUnit(_tile.CurrentUnit);
+
+            //set the mode back to select mode
+            mapMode = MapMode.selectMode;
+
+            //end the turn of the unit that attacked
+            unit.EndAction();
+
+            //deselect the tile
+            Deselect();
+        }
+
+        #endregion
+
+        #region misc tile functions
 
         /// <summary>
         /// sets the stepCheck variable of each tile to 0 so it can be reused

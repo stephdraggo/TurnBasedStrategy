@@ -16,27 +16,63 @@ namespace TurnBasedStrategy.Gameplay
     /// </summary>
     public abstract class Unit : MonoBehaviour
     {
+        #region variables
         public abstract UnitTeam GetTeam();
         [Header("Start position")]
         //tile this unit will go to when it is created
         [SerializeField] int startTileX;
         [SerializeField] int startTileY;
         Tile startTile;
+
         [Header("Stats")]
-        [SerializeField] int health = 5;
+        [SerializeField] float health = 5;
         [SerializeField] int attackDamage = 3;
         //how many tiles this unit can move in a turn
         [SerializeField] int movement;
+
+        float currentHealth;
+
         [Header("Walkable Tiles")]
         //List of all tiles this unit can walk on
         [SerializeField] List<TileType> walkableTiles = new List<TileType>() { TileType.water };
         //tile the unit is currently on
         Tile currentTile;
 
-        private void Start()
+        UnitHUD unitHUD;
+
+        public bool Acted { get; private set; }
+
+        #endregion
+
+        #region action
+        protected void Start()
         {
+            currentHealth = health;
+
+            unitHUD = GetComponentInChildren<UnitHUD>();
+            unitHUD.SetHealthBarFillAmount(1);
+            
             GoToStartTile();
         }
+
+        /// <summary>
+        /// Allows this unit to act
+        /// </summary>
+        public void StartTurn()
+        {
+            Acted = false;
+            unitHUD.ShowActIcon(true);
+        }
+
+        /// <summary>
+        /// Stops this unit from acting
+        /// </summary>
+        public void EndAction()
+        {
+            Acted = true;
+            unitHUD.ShowActIcon(false);
+        }
+        #endregion
 
         #region movement
 
@@ -78,6 +114,8 @@ namespace TurnBasedStrategy.Gameplay
             //go to starting tile
             GoToTile(startTile);
         }
+
+
         #endregion
 
         #region calculate moveable tiles
@@ -158,14 +196,26 @@ namespace TurnBasedStrategy.Gameplay
 
         }
 
-        
+
 
         #endregion
 
-        public void TakeDamage(int _damage)
+        #region damage
+        public void AttackUnit(Unit _unit)
         {
-            health -= _damage;
-            if (health <= 0) Death();
+            _unit.TakeDamage(attackDamage);
+        }
+
+        public void TakeDamage(float _damage)
+        {
+            //lose health
+            currentHealth -= _damage;
+
+            //update health bar
+            unitHUD.SetHealthBarFillAmount(currentHealth / health);
+
+            //if on 0 health, die
+            if (currentHealth <= 0) Death();
         }
 
         void Death()
@@ -173,5 +223,51 @@ namespace TurnBasedStrategy.Gameplay
             currentTile.RemoveUnit();
             Destroy(gameObject);
         }
+        #endregion
+
+        #region find units
+
+        public abstract List<Tile> EnemiesInRange();
+
+        /// <summary>
+        /// Get all the units in a given team that are adjacent to this unit
+        /// </summary>
+        /// <param name="_team">Team to check for</param>
+        /// <returns>List of units found</returns>
+        protected List<Tile> UnitsInRange(UnitTeam _team)
+        {
+            List<Tile> unitTiles = new List<Tile>();
+
+            if (currentTile.upTile)
+                if (CheckTargetTile(currentTile.upTile, _team)) 
+                    unitTiles.Add(currentTile.upTile);
+
+            if (currentTile.rightTile) 
+                if (CheckTargetTile(currentTile.rightTile, _team)) 
+                    unitTiles.Add(currentTile.rightTile);
+
+            if (currentTile.downTile) 
+                if (CheckTargetTile(currentTile.downTile, _team)) 
+                    unitTiles.Add(currentTile.downTile);
+
+            if (currentTile.leftTile) 
+                if (CheckTargetTile(currentTile.leftTile, _team)) 
+                    unitTiles.Add(currentTile.leftTile);
+
+            return unitTiles;
+        }
+
+        /// <summary>
+        /// Returns true if a unit of the specified team is on the tile
+        /// </summary>
+        /// <param name="_tile">Tile to check</param>
+        /// <param name="_team">Team of units to check for</param>
+        bool CheckTargetTile(Tile _tile, UnitTeam _team)
+        {
+            if (_tile.CurrentUnit == null) return false;
+
+            return _tile.CurrentUnit.GetTeam() == _team;
+        }
+        #endregion
     }
 }

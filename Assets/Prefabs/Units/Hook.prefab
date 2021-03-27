@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5791539473809840792}
-  - component: {fileID: 5791539473809840795}
+  - component: {fileID: 6234601547544121583}
   m_Layer: 0
-  m_Name: Crab
+  m_Name: Hook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,11 +29,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6072709960865551842}
-  - {fileID: 3940939904106865009}
+  - {fileID: 4369296155208775454}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5791539473809840795
+--- !u!114 &6234601547544121583
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,14 +42,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5791539473809840796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3316eca2a327497499e1e38adbad6007, type: 3}
+  m_Script: {fileID: 11500000, guid: 397186ca2346f8f46bea397d5de7945f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startTileX: 0
-  startTileY: 0
+  startTileX: 5
+  startTileY: 3
   health: 5
   attackDamage: 3
-  movement: 3
+  movement: 2
   walkableTiles: 00000000
 --- !u!1 &6049583737752707359
 GameObject:
@@ -110,7 +110,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f574939466250ec47ac5e5cb91ec57fb, type: 2}
+  - {fileID: 2100000, guid: d5f65ab19a6e42e489773cc109fe4910, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -132,7 +132,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1001 &3846868823003856070
+--- !u!1001 &4571451118133586601
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -223,14 +223,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2474970516347427696, guid: d0b338e0313e29946b2a8822900bd67f, type: 3}
+      propertyPath: showActIcon
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5000394826567328739, guid: d0b338e0313e29946b2a8822900bd67f, type: 3}
       propertyPath: m_Name
       value: UnitHUD
       objectReference: {fileID: 0}
+    - target: {fileID: 9125563772671574706, guid: d0b338e0313e29946b2a8822900bd67f, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0b338e0313e29946b2a8822900bd67f, type: 3}
---- !u!224 &3940939904106865009 stripped
+--- !u!224 &4369296155208775454 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 275798363093917111, guid: d0b338e0313e29946b2a8822900bd67f, type: 3}
-  m_PrefabInstance: {fileID: 3846868823003856070}
+  m_PrefabInstance: {fileID: 4571451118133586601}
   m_PrefabAsset: {fileID: 0}
