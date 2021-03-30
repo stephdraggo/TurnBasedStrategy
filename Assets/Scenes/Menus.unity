@@ -169,6 +169,8 @@ GameObject:
   m_Component:
   - component: {fileID: 188237574}
   - component: {fileID: 188237575}
+  - component: {fileID: 188237577}
+  - component: {fileID: 188237576}
   m_Layer: 5
   m_Name: Music Slider
   m_TagString: Untagged
@@ -249,6 +251,34 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &188237576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188237573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbc50bae729a6d44a8f54d655b2e3c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 0}
+  range: {x: -20, y: 0}
+  exposedParamName: 
+--- !u!114 &188237577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188237573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &220761217
 GameObject:
   m_ObjectHideFlags: 0
@@ -1252,6 +1282,8 @@ GameObject:
   m_Component:
   - component: {fileID: 380634428}
   - component: {fileID: 380634429}
+  - component: {fileID: 380634431}
+  - component: {fileID: 380634430}
   m_Layer: 5
   m_Name: SFX Slider
   m_TagString: Untagged
@@ -1332,6 +1364,34 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &380634430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380634427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbc50bae729a6d44a8f54d655b2e3c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 0}
+  range: {x: -20, y: 0}
+  exposedParamName: 
+--- !u!114 &380634431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380634427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &389723697
 GameObject:
   m_ObjectHideFlags: 0
@@ -3342,6 +3402,7 @@ GameObject:
   - component: {fileID: 833059780}
   - component: {fileID: 833059779}
   - component: {fileID: 833059778}
+  - component: {fileID: 833059781}
   m_Layer: 5
   m_Name: Resolution Dropdown
   m_TagString: Untagged
@@ -3468,6 +3529,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 833059776}
   m_CullTransparentMesh: 1
+--- !u!114 &833059781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833059776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a60d5a67af66a846baf99bb988060f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &903324763
 GameObject:
   m_ObjectHideFlags: 0
@@ -6727,6 +6800,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1937122324}
   - component: {fileID: 1937122325}
+  - component: {fileID: 1937122326}
   m_Layer: 5
   m_Name: Mute Toggle
   m_TagString: Untagged
@@ -6803,6 +6877,20 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &1937122326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937122323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c705b37ec8e98ae4b9c4a8e1e5646290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 0}
+  exposedParamName: 
 --- !u!1 &1939743184
 GameObject:
   m_ObjectHideFlags: 0
@@ -6993,6 +7081,7 @@ GameObject:
   - component: {fileID: 1974566047}
   - component: {fileID: 1974566046}
   - component: {fileID: 1974566045}
+  - component: {fileID: 1974566048}
   m_Layer: 5
   m_Name: Quality Dropdown
   m_TagString: Untagged
@@ -7119,6 +7208,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1974566043}
   m_CullTransparentMesh: 1
+--- !u!114 &1974566048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974566043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bec2648d5dbb114e8b0eca20f8e8c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2012966831
 GameObject:
   m_ObjectHideFlags: 0
@@ -7250,6 +7351,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2060864775}
   - component: {fileID: 2060864776}
+  - component: {fileID: 2060864777}
   m_Layer: 5
   m_Name: Fullscreen Toggle
   m_TagString: Untagged
@@ -7326,6 +7428,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &2060864777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060864774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a7d25078435ac4ab72b41edcd5d123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2076772754
 GameObject:
   m_ObjectHideFlags: 0
