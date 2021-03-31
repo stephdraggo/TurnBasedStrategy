@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TurnBasedStrategy.Gameplay
 {
@@ -19,13 +20,15 @@ namespace TurnBasedStrategy.Gameplay
         }
         #endregion
 
+        [SerializeField] Button endTurnButton;
+
         //Time to wait between each unit moving in the enemy turn
         [SerializeField] float waitTime = 0.5f;
         public float WaitTime => waitTime;
 
         List<Unit> playerTeam = new List<Unit>();
         List<Unit> enemyTeam = new List<Unit>();
-
+        
         UnitTeam currentTurn = UnitTeam.player;
 
         bool waitingForMove;
@@ -61,6 +64,16 @@ namespace TurnBasedStrategy.Gameplay
             }
         }
 
+        public List<Unit> GetAllUnitsInTeam(UnitTeam _team)
+        {
+            switch (_team)
+            {
+                case UnitTeam.player: return playerTeam;
+                case UnitTeam.enemy: return enemyTeam;
+                default: return null;
+            }
+        }
+
         /// <summary>
         /// Starts the turn for the next team
         /// </summary>
@@ -75,12 +88,16 @@ namespace TurnBasedStrategy.Gameplay
                 {
                     unit.EndAction();
                 }
+                //disable end turn button
+                endTurnButton.interactable = false;
                 //set turn to enemy and start enemy coroutine
                 currentTurn = UnitTeam.enemy;
                 StartCoroutine(EnemyTurn());
             }
             else if (currentTurn == UnitTeam.enemy)
             {
+                //enable end turn button
+                endTurnButton.interactable = true;
                 //set turn to player and reload all units
                 currentTurn = UnitTeam.player;
                 foreach (Unit unit in playerTeam)

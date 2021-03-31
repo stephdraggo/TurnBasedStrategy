@@ -33,10 +33,14 @@ namespace TurnBasedStrategy.Gameplay
         #region movement
         private void Move()
         {
-            //Get a tile with an enemy near it
+
+            //Get a tile in range with an enemy near it
             Tile tile = GetEnemyAdjacentTile();
 
-            //if there are none, get a random tile
+            //if there are none, move towards the closest enemy
+            if (tile == null) tile = GetClosestTileToEnemy();
+            
+            //if there are no enemies, get a random tile
             if (tile == null ) tile = GetRandomMoveableTile();
 
             //move to the tile if one was found
@@ -49,17 +53,22 @@ namespace TurnBasedStrategy.Gameplay
         /// <returns>Tile with an enemy adjacent to it, otherwise null</returns>
         Tile GetEnemyAdjacentTile()
         {
+            if (EnemiesInRange(CurrentTile).Count > 0) return CurrentTile;
+
             Tile targetTile = null;
-            //get all tiles that can be moved to
+
+            //get all the mvoeable tiles
             List<Tile> moveableTiles = CalculateMovementTiles();
-            //get all the moveable tiles that have no enemies next to them
+
+            //make a list of tiles to remove from moveable tiles
             List<Tile> removeTiles = new List<Tile>();
             foreach (Tile tile in moveableTiles)
             {
-                if (EnemiesInRange(tile).Count == 0)
-                {
-                    removeTiles.Add(tile);
-                }
+                //remove the tile if it has no enemies next to it
+                if (EnemiesInRange(tile).Count == 0) removeTiles.Add(tile);
+                //remove the tile if it has a unit in it already
+                if (tile.CurrentUnit != null) removeTiles.Add(tile);
+
             }
             //remove all of those tiles from the list
             foreach (Tile tile in removeTiles) moveableTiles.Remove(tile);
@@ -67,8 +76,37 @@ namespace TurnBasedStrategy.Gameplay
             //if there are tiles with enemies next to them
             if (moveableTiles.Count > 0)
             {
-                //return a random one
+                //pick a random one and move to it to attack
                 targetTile = moveableTiles[Random.Range(0, moveableTiles.Count)];
+            }
+
+            return targetTile;
+        }
+
+        /// <summary>
+        /// Finds the shortest path to the closest enemy unit and returns a tile along it as far as possible
+        /// </summary>
+        Tile GetClosestTileToEnemy()
+        {
+            Tile targetTile = null;
+
+            //Find the closest unit outside of range
+            Unit targetUnit = FindClosestUnit(currentTile, UnitTeam.player);
+
+            //if there are no units to target, return
+            if (targetUnit == null) return null;
+
+            //Find the shortest path to the unit
+            List<Tile> pathTiles = Pathfinding.FindShortestPath(currentTile, targetUnit.CurrentTile, targetUnit);
+
+            //move along the path according to how far the unit can move
+            for(int i = movement; i >= 0; i--)
+            {
+                if (pathTiles[i].CurrentUnit == null)
+                {
+                    targetTile = pathTiles[i];
+                    break;
+                }
             }
 
             return targetTile;
@@ -81,10 +119,12 @@ namespace TurnBasedStrategy.Gameplay
         Tile GetRandomMoveableTile()
         {
             List<Tile> moveableTiles = CalculateMovementTiles();
+
             if (moveableTiles.Count == 0) return null;
 
-            Tile tile = moveableTiles[Random.Range(0, moveableTiles.Count)];
-            return tile;
+            Tile targetTile = moveableTiles[Random.Range(0, moveableTiles.Count)];
+
+            return targetTile;
         }
         #endregion
 

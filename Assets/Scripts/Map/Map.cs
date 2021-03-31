@@ -284,11 +284,15 @@ namespace TurnBasedStrategy.Gameplay
         #region misc tile functions
 
         /// <summary>
-        /// sets the stepCheck variable of each tile to 0 so it can be reused
+        /// Resets the previous tile and step check so the tile can be used for a new path
         /// </summary>
-        public void ResetTileStepChecks()
+        public void ResetTilePathData()
         {
-            foreach (Tile _tile in tileList) _tile.stepCheck = 0;
+            foreach (Tile _tile in tileList) 
+            { 
+                _tile.stepCheck = 0;
+                _tile.previousTile = null;
+            }
         }
 
         #endregion

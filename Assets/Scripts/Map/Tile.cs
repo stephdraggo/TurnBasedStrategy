@@ -46,6 +46,9 @@ namespace TurnBasedStrategy.Gameplay
         public Tile upTile, rightTile, downTile, leftTile;
         //counter used for finding tiles a unit can walk to
         [HideInInspector] public int stepCheck;
+        //used for pathfinding only
+        [HideInInspector] public Tile previousTile;
+
 
         //unit currently on this tile, null means no unit
         public Unit CurrentUnit { get; private set; }
@@ -124,7 +127,19 @@ namespace TurnBasedStrategy.Gameplay
             return CurrentUnit.CalculateMovementTiles();
         }
 
+        public bool IsTileWalkable(Unit _unit) => _unit.WalkableTiles.Contains(tileType);
+
         #endregion
+
+        public void ResetRotation()
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+        public void RotateX(float _amount)
+        {
+            transform.Rotate(new Vector3(1, 0, 0), _amount, Space.World);
+        }
 
     }
 }

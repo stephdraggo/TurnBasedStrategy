@@ -28,15 +28,17 @@ namespace TurnBasedStrategy.Gameplay
         [SerializeField] float health = 5;
         [SerializeField] int attackDamage = 3;
         //how many tiles this unit can move in a turn
-        [SerializeField] int movement;
+        [SerializeField] protected int movement = 2;
 
         float currentHealth;
 
         [Header("Walkable Tiles")]
         //List of all tiles this unit can walk on
         [SerializeField] List<TileType> walkableTiles = new List<TileType>() { TileType.water };
+        public List<TileType> WalkableTiles => walkableTiles;
         //tile the unit is currently on
         protected Tile currentTile;
+        public Tile CurrentTile => currentTile;
 
         UnitHUD unitHUD;
 
@@ -129,7 +131,7 @@ namespace TurnBasedStrategy.Gameplay
             List<Tile> availableTiles = new List<Tile>();
 
             //reset all tiles step check to 0
-            Map.instance.ResetTileStepChecks();
+            Map.instance.ResetTilePathData();
 
             //Get every tile this unit can move to from the current tile
             AddTile(ref availableTiles, currentTile, movement);
@@ -147,7 +149,7 @@ namespace TurnBasedStrategy.Gameplay
         void AddTile(ref List<Tile> tileList, Tile _tile, int _remainingSteps)
         {
             //if the tile isnt walkable for this unit, return
-            if (!walkableTiles.Contains(_tile.TileType)) return;
+            if (!_tile.IsTileWalkable(this)) return;
 
             //get the unit on the tile
             Unit tileUnit = _tile.CurrentUnit;
@@ -278,6 +280,37 @@ namespace TurnBasedStrategy.Gameplay
             if (_tile.CurrentUnit == null) return false;
 
             return _tile.CurrentUnit.GetTeam() == _team;
+        }
+
+        /// <summary>
+        /// Returns the closest unit on a given team to a tile
+        /// </summary>
+        /// <param name="_tile">Tile to search from</param>
+        /// <param name="_team">Team to look for units of</param>
+        /// <returns></returns>
+        public Unit FindClosestUnit(Tile _tile, UnitTeam _team)
+        {
+            //Get all the units that can be targeted
+            List<Unit> possibleUnits = TurnControl.instance.GetAllUnitsInTeam(_team);
+
+            if (possibleUnits.Count == 0) return null;
+            if (possibleUnits.Count == 1) return possibleUnits[0];
+
+            //set the default target to the first in the team
+            Unit targetUnit = possibleUnits[0];
+            int minDistance = Pathfinding.DistanceBetweenTiles(_tile, targetUnit.currentTile);
+
+            //for each unit in the team, set the target to them if they are closer
+            for(int i = 1; i < possibleUnits.Count; i++)
+            {
+                int targetDistance = Pathfinding.DistanceBetweenTiles(_tile, possibleUnits[i].currentTile);
+                if (targetDistance < minDistance)
+                {
+                    targetUnit = possibleUnits[i];
+                    minDistance = targetDistance;
+                }
+            }
+            return targetUnit;
         }
         #endregion
 
