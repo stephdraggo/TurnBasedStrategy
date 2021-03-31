@@ -36,7 +36,7 @@ namespace TurnBasedStrategy.Gameplay
         //List of all tiles this unit can walk on
         [SerializeField] List<TileType> walkableTiles = new List<TileType>() { TileType.water };
         //tile the unit is currently on
-        Tile currentTile;
+        protected Tile currentTile;
 
         UnitHUD unitHUD;
 
@@ -221,38 +221,49 @@ namespace TurnBasedStrategy.Gameplay
         void Death()
         {
             currentTile.RemoveUnit();
+            TurnControl.instance.RemoveUnit(this, GetTeam());
             Destroy(gameObject);
         }
         #endregion
 
         #region find units
 
+        /// <summary>
+        /// Finds all enemies in range from the passed tile
+        /// </summary>
+        /// <returns></returns>
+        public abstract List<Tile> EnemiesInRange(Tile _tile);
+        /// <summary>
+        /// Finds all enemies in range from the current tile
+        /// </summary>
+        /// <returns></returns>
         public abstract List<Tile> EnemiesInRange();
 
         /// <summary>
         /// Get all the units in a given team that are adjacent to this unit
         /// </summary>
         /// <param name="_team">Team to check for</param>
+        /// <param name = "_tile">Tile to check from, use CurrentTile if checking from current tile</param>
         /// <returns>List of units found</returns>
-        protected List<Tile> UnitsInRange(UnitTeam _team)
+        protected List<Tile> UnitsInRange(UnitTeam _team, Tile _tile)
         {
             List<Tile> unitTiles = new List<Tile>();
 
-            if (currentTile.upTile)
-                if (CheckTargetTile(currentTile.upTile, _team)) 
-                    unitTiles.Add(currentTile.upTile);
+            if (_tile.upTile)
+                if (CheckTargetTile(_tile.upTile, _team)) 
+                    unitTiles.Add(_tile.upTile);
 
-            if (currentTile.rightTile) 
-                if (CheckTargetTile(currentTile.rightTile, _team)) 
-                    unitTiles.Add(currentTile.rightTile);
+            if (_tile.rightTile) 
+                if (CheckTargetTile(_tile.rightTile, _team)) 
+                    unitTiles.Add(_tile.rightTile);
 
-            if (currentTile.downTile) 
-                if (CheckTargetTile(currentTile.downTile, _team)) 
-                    unitTiles.Add(currentTile.downTile);
+            if (_tile.downTile) 
+                if (CheckTargetTile(_tile.downTile, _team)) 
+                    unitTiles.Add(_tile.downTile);
 
-            if (currentTile.leftTile) 
-                if (CheckTargetTile(currentTile.leftTile, _team)) 
-                    unitTiles.Add(currentTile.leftTile);
+            if (_tile.leftTile) 
+                if (CheckTargetTile(_tile.leftTile, _team)) 
+                    unitTiles.Add(_tile.leftTile);
 
             return unitTiles;
         }
@@ -267,6 +278,19 @@ namespace TurnBasedStrategy.Gameplay
             if (_tile.CurrentUnit == null) return false;
 
             return _tile.CurrentUnit.GetTeam() == _team;
+        }
+        #endregion
+
+        #region ai take turn
+        public void TakeTurn()
+        {
+            StartCoroutine(TakeTurnRoutine());
+        }
+
+        protected virtual IEnumerator TakeTurnRoutine()
+        {
+            TurnControl.instance.NextUnitMove();
+            yield return null;
         }
         #endregion
     }

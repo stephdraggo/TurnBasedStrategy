@@ -28,6 +28,8 @@ namespace TurnBasedStrategy.Gameplay
         [Header("Data")]
         //type of tile, determines what can move on it
         [SerializeField] TileType tileType;
+        Vector2Int gridPosition;
+        public Vector2Int GridPosition => gridPosition;
         [Header("Selection sprite")]
         //reference to sprite renderer of selection
         [SerializeField] SpriteRenderer spriteRenderer;
@@ -54,6 +56,8 @@ namespace TurnBasedStrategy.Gameplay
             //disable the selection sprite
             spriteRenderer.gameObject.SetActive(false);
         }
+
+        public void SetGridPosition(Vector2Int _gridPosition) => gridPosition = _gridPosition;
 
         private void OnMouseUp()
         {

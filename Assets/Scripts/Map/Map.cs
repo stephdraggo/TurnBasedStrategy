@@ -63,6 +63,9 @@ namespace TurnBasedStrategy.Gameplay
                     Tile newTile = tile.GetComponent<Tile>();
                     tiles[j, i] = newTile;
                     tileList.Add(newTile);
+
+                    //set the tiles positions on the grid
+                    newTile.SetGridPosition(new Vector2Int(j, i));
                     j++;
                 }
                 i++;
