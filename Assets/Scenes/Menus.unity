@@ -4916,7 +4916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48fa41739c3f6a84db85e2c4434aba09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: Assets/Scenes/Menus.unity
+  scene: Assets/Scenes/PrototypeScene.unity
 --- !u!1 &1246013008
 GameObject:
   m_ObjectHideFlags: 0
@@ -5682,7 +5682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48fa41739c3f6a84db85e2c4434aba09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: Assets/Scenes/Menus.unity
+  scene: Assets/Scenes/PrototypeScene.unity
 --- !u!1 &1386235645
 GameObject:
   m_ObjectHideFlags: 0
