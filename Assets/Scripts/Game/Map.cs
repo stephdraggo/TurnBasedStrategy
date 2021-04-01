@@ -206,6 +206,22 @@ namespace TurnBasedStrategy.Gameplay
                 //if the unit is on the player team, select them as moveable tiles, otherwise just display them
                 tile.SetSelectionState(isPlayerUnit ? SelectionState.showMovement : SelectionState.showEnemyMovement);
                 otherDisplayedTiles.Add(tile);
+
+                //if the unit is a player unit, show enemy tiles that can be attacked
+                if (isPlayerUnit)
+                {
+                    //get a list of the enemies next to the tile
+                    List<Tile> enemiesFound = _tile.CurrentUnit.EnemiesInRange(tile);
+                    if (enemiesFound.Count > 0)
+                    {
+                        //if there were any, set them as attack tiles
+                        foreach (Tile enemyTile in enemiesFound) 
+                        { 
+                            enemyTile.SetSelectionState(SelectionState.showAttack);
+                            otherDisplayedTiles.Add(enemyTile);
+                        }
+                    }
+                }
             }
 
         }
@@ -265,6 +281,44 @@ namespace TurnBasedStrategy.Gameplay
 
             //get the unit doing the attack
             Unit unit = selectedTile.CurrentUnit;
+
+            //if the unit is not next to the enemy, move before attacking
+            if (Pathfinding.DistanceBetweenTiles(selectedTile, _tile) > 1)
+            {
+                //Get all the tiles the unit can move to
+                List<Tile> movementTiles = unit.CalculateMovementTiles();
+                List<Tile> possibleAttackTiles = new List<Tile>();
+                
+                //Find which ones are next to the enemy
+                if (movementTiles.Contains(_tile.upTile)) possibleAttackTiles.Add(_tile.upTile);
+                if (movementTiles.Contains(_tile.downTile)) possibleAttackTiles.Add(_tile.downTile);
+                if (movementTiles.Contains(_tile.leftTile)) possibleAttackTiles.Add(_tile.leftTile);
+                if (movementTiles.Contains(_tile.rightTile)) possibleAttackTiles.Add(_tile.rightTile);
+
+               
+                if (possibleAttackTiles.Count > 0)
+                {
+                    Tile targetTile = possibleAttackTiles[0];
+
+                    //Find the closest tile to the unit
+                    if (possibleAttackTiles.Count > 1)
+                    {
+                        int minDistance = Pathfinding.DistanceBetweenTiles(selectedTile, possibleAttackTiles[0]);
+                        for(int i = 1; i < possibleAttackTiles.Count; i++)
+                        {
+                            int tileDistance = Pathfinding.DistanceBetweenTiles(selectedTile, possibleAttackTiles[i]);
+                            if (tileDistance < minDistance)
+                            {
+                                targetTile = possibleAttackTiles[i];
+                                minDistance = tileDistance;
+                            }
+                        }
+                    }
+
+                    //move to it
+                    unit.MoveToTile(targetTile);
+                } 
+            }
 
             //attack the unit on the selected tile
             unit.AttackUnit(_tile.CurrentUnit);
