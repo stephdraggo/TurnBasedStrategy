@@ -338,6 +338,25 @@ namespace TurnBasedStrategy.Gameplay
         #region misc tile functions
 
         /// <summary>
+        /// Returns a random empty tile walkable on by the given unit between the given min and max positions
+        /// </summary>
+        public Tile GetRandomFreeTile(Unit _unit, Vector2Int _minPosition, Vector2Int _maxPosition)
+        {
+            if (_minPosition.x > _maxPosition.x || _minPosition.y > _maxPosition.y) return null;
+
+            List<Tile> possibleTiles = new List<Tile>();
+            for(int i = Mathf.Max(_minPosition.x, 0); i <= Mathf.Min(gridSizeX - 1, _maxPosition.x); i++)
+            {
+                for (int j = Mathf.Max(_minPosition.y, 0); j <= Mathf.Min(gridSizeY - 1, _maxPosition.y); j++)
+                {
+                    if (tiles[i, j].CurrentUnit == null && tiles[i, j].IsTileWalkable(_unit))
+                        possibleTiles.Add(tiles[i, j]);
+                }
+            }
+            if (possibleTiles.Count == 0) return null;
+            return possibleTiles[Random.Range(0, possibleTiles.Count)];
+        }
+        /// <summary>
         /// Resets the previous tile and step check so the tile can be used for a new path
         /// </summary>
         public void ResetTilePathData()

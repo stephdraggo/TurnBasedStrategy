@@ -90,7 +90,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5791539473809840792}
-  - component: {fileID: 5791539473809840795}
   - component: {fileID: 342397017514480741}
   m_Layer: 0
   m_Name: Fish
@@ -115,24 +114,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5791539473809840795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5791539473809840796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3316eca2a327497499e1e38adbad6007, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startTileX: 0
-  startTileY: 0
-  health: 5
-  attackDamage: 3
-  movement: 3
-  walkableTiles: 00000000
 --- !u!114 &342397017514480741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,13 +126,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3edd03db9fb0d1841a1d273e1a2c7066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startTileX: 0
-  startTileY: 3
   health: 5
   attackDamage: 1
   movement: 2
   walkableTiles: 00000000
-  exitTile: {fileID: 0}
 --- !u!1001 &3846868823003856070
 PrefabInstance:
   m_ObjectHideFlags: 0

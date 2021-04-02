@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace TurnBasedStrategy.Gameplay
 {
+    /// <summary>
+    /// Static class that holds functions to do with pathfinding on the map
+    /// </summary>
     public static class Pathfinding
     {
         static Unit unit;

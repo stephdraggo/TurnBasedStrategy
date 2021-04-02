@@ -20,11 +20,10 @@ namespace TurnBasedStrategy.Gameplay
         }
         #endregion
 
+        [Header("UI References")]
         [SerializeField] Button endTurnButton;
-
-        //Time to wait between each unit moving in the enemy turn
-        [SerializeField] float waitTime = 0.5f;
-        public float WaitTime => waitTime;
+        [SerializeField] Text turnNumberText;
+        [SerializeField] GameObject loadingPanel;
 
         List<Unit> playerTeam = new List<Unit>();
         List<Unit> enemyTeam = new List<Unit>();
@@ -32,8 +31,17 @@ namespace TurnBasedStrategy.Gameplay
         
         UnitTeam currentTurn = UnitTeam.player;
 
+        int turnNumber = 1;
+        public int TurnNumber => turnNumber;
+
+        [Header("Time to wait between ai actions")]
+        //Time to wait between each unit moving in the enemy turn
+        [SerializeField] float waitTime = 0.5f;
+        public float WaitTime => waitTime;
+
         bool waitingForMove;
 
+        #region team control
         /// <summary>
         /// Adds a unit to a team, call when initialising units
         /// </summary>
@@ -82,6 +90,9 @@ namespace TurnBasedStrategy.Gameplay
             }
         }
 
+        #endregion
+
+        #region turn control
         /// <summary>
         /// Starts the turn for the next team
         /// </summary>
@@ -93,12 +104,14 @@ namespace TurnBasedStrategy.Gameplay
             //if player turn, start fish turn
             if (currentTurn == UnitTeam.player)
             {
+                //stop all player units from moving any more
                 foreach (Unit unit in playerTeam)
                 {
                     unit.EndAction();
                 }
+
                 //disable end turn button
-                endTurnButton.interactable = false;
+                SetEndTurnButtonInteractable(false);
 
                 //set turn to fish and start fish coroutine
                 currentTurn = UnitTeam.fish;
@@ -107,14 +120,26 @@ namespace TurnBasedStrategy.Gameplay
             //if fish turn, start enemy turn
             else if (currentTurn == UnitTeam.fish)
             {
+                //Spawn fish
+                GameControl.instance.SpawnFish();
+
+                GameControl.instance.StartEnemyTurn();
+
                 currentTurn = UnitTeam.enemy;
                 StartCoroutine(AITurn(UnitTeam.enemy));
             }
             //if enemy turn, start player turn
             else if (currentTurn == UnitTeam.enemy)
             {
+                GameControl.instance.StartPlayerTurn();
+
                 //enable end turn button
-                endTurnButton.interactable = true;
+                SetEndTurnButtonInteractable(true);
+
+                //increase the turn number
+                turnNumber++;
+                SetTurnNumberText();
+
                 //set turn to player and reload all units
                 currentTurn = UnitTeam.player;
                 foreach (Unit unit in playerTeam)
@@ -126,11 +151,28 @@ namespace TurnBasedStrategy.Gameplay
 
         private void Start()
         {
+            SetLoadingPanelVisibility(true);
+        }
+
+        /// <summary>
+        /// Call when the units are spawned in to start the game
+        /// </summary>
+        public void StartGame()
+        {
+            SetLoadingPanelVisibility(false);
+
+            GameControl.instance.StartPlayerTurn();
+
+            SetTurnNumberText();
+
             foreach (Unit unit in playerTeam)
             {
                 unit.StartTurn();
             }
         }
+        #endregion
+
+        #region ai turns
 
         /// <summary>
         /// Call from an ai unit when it has finished moving to tell the next unit to move
@@ -143,10 +185,12 @@ namespace TurnBasedStrategy.Gameplay
         /// <returns></returns>
         public IEnumerator AITurn(UnitTeam _team)
         {
+            yield return null;
             yield return new WaitForSeconds(waitTime);
 
-            List<Unit> unitsInTeam = GetAllUnitsInTeam(_team);
-            int unitsInTeamCount = GetAllUnitsInTeam(_team).Count;
+            List<Unit> unitsInTeam = new List<Unit>();
+            unitsInTeam.AddRange(GetAllUnitsInTeam(_team));
+            int unitsInTeamCount = unitsInTeam.Count;
 
             for (int i = 0; i < unitsInTeamCount; i++)
             {
@@ -157,5 +201,17 @@ namespace TurnBasedStrategy.Gameplay
 
             EndTurn();
         }
+        #endregion
+
+        #region UI
+
+        void SetLoadingPanelVisibility(bool _visible) => loadingPanel.SetActive(_visible);
+
+        void SetEndTurnButtonInteractable(bool _interactable) => endTurnButton.interactable = _interactable;
+
+        void SetTurnNumberText() => turnNumberText.text = "Turn " + turnNumber;
+
+        #endregion
+
     }
 }

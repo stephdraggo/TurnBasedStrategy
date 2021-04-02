@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace TurnBasedStrategy.Gameplay
 {
+    /// <summary>
+    /// Class that holds HUD elements for units such as the health bar or act icon
+    /// </summary>
     public class UnitHUD : MonoBehaviour
     {
         [Header("Visible elements")]

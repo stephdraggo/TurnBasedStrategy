@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Linq;
+
 using Exception = System.Exception;
 
 namespace TurnBasedStrategy.Gameplay
@@ -20,11 +22,6 @@ namespace TurnBasedStrategy.Gameplay
         #region variables
         public abstract UnitTeam GetTeam();
         public abstract UnitTeam[] GetOpposingTeams();
-        [Header("Start position")]
-        //tile this unit will go to when it is created
-        [SerializeField] int startTileX;
-        [SerializeField] int startTileY;
-        protected Tile startTile;
 
         [Header("Stats")]
         [SerializeField] float health = 5;
@@ -48,18 +45,41 @@ namespace TurnBasedStrategy.Gameplay
 
         #endregion
 
-        #region action
-        protected void Start()
+        #region setup
+        /// <summary>
+        /// Initiates the unit and puts it in the start position
+        /// </summary>
+        public virtual void Setup(int _startTileX, int _startTileY)
         {
             currentHealth = health;
 
             unitHUD = GetComponentInChildren<UnitHUD>();
             unitHUD.SetHealthBarFillAmount(1);
 
-            TurnControl.instance.AddUnit(this, GetTeam());
-
-            GoToStartTile();
+            GoToStartTile(_startTileX, _startTileY);
         }
+
+        /// <summary>
+        /// Moves the unit to its starting position
+        /// </summary>
+        void GoToStartTile(int _startTileX, int _startTileY)
+        {
+           
+            //if the starting point is off the map, put it back on
+            if (_startTileX < 0) _startTileX = 0;
+            else if (_startTileX >= Map.instance.GridSize.x) _startTileX = Map.instance.GridSize.x - 1;
+            if (_startTileY < 0) _startTileY = 0;
+            else if (_startTileY >= Map.instance.GridSize.y) _startTileY = Map.instance.GridSize.y - 1;
+
+            //set the starting tile
+            Tile startTile = Map.instance.Tiles[_startTileX, _startTileY];
+
+            //go to starting tile
+            GoToTile(startTile);
+        }
+        #endregion
+
+        #region action
 
         /// <summary>
         /// Allows this unit to act
@@ -92,31 +112,6 @@ namespace TurnBasedStrategy.Gameplay
             currentTile = _tile;
             transform.position = new Vector3(_tile.transform.position.x, _tile.transform.position.y, transform.position.z);
             _tile.SetUnit(this);
-        }
-
-        /// <summary>
-        /// Moves the unit to its starting position
-        /// </summary>
-        void GoToStartTile()
-        {
-            //if the start tile is already set, go to it
-            if (startTile != null)
-            {
-                GoToTile(startTile);
-                return;
-            }
-
-            //if the starting point is off the map, put it back on
-            if (startTileX < 0) startTileX = 0;
-            else if (startTileX >= Map.instance.GridSize.x) startTileX = Map.instance.GridSize.x - 1;
-            if (startTileY < 0) startTileY = 0;
-            else if (startTileY >= Map.instance.GridSize.y) startTileY = Map.instance.GridSize.y - 1;
-
-            //set the starting tile
-            startTile = Map.instance.Tiles[startTileX, startTileY];
-
-            //go to starting tile
-            GoToTile(startTile);
         }
 
 
@@ -162,8 +157,9 @@ namespace TurnBasedStrategy.Gameplay
                 //and if the tile isnt already in the list, add it
                 if (!tileList.Contains(_tile)) tileList.Add(_tile);
             }
-            //if there is a unit on this tile not on the same team as this one, return
-            else if (tileUnit.GetTeam() != this.GetTeam()) return;
+            //if there is a unit on this tile on an enemy team to this one, return
+            else if (GetOpposingTeams().Contains(tileUnit.GetTeam())) return;
+
             //(if the tile contains an ally unit, the tile won't be added to the list but the checker will continue for tiles past the ally)
 
             //the stepCheck of a tile defaults at 0, so if there are not enough steps left return and dont check any further tiles
@@ -200,8 +196,6 @@ namespace TurnBasedStrategy.Gameplay
 
         }
 
-
-
         #endregion
 
         #region damage
@@ -228,6 +222,9 @@ namespace TurnBasedStrategy.Gameplay
             TurnControl.instance.RemoveUnit(this, GetTeam());
             Destroy(gameObject);
         }
+
+        protected void HideUnit() { foreach (Transform child in transform) child.gameObject.SetActive(false); }
+
         #endregion
 
         #region find units
@@ -343,11 +340,12 @@ namespace TurnBasedStrategy.Gameplay
         {
             Tile targetTile = null;
 
-            //return the last tile in the path if movement goes too far
-            if (movement > _path.Count - 1) return _path[_path.Count - 1];
+            int moveTiles = movement;
+            //movement should not go further than the path length
+            if (moveTiles > _path.Count - 1) moveTiles = _path.Count - 1;
 
             //move along the path according to how far the unit can move
-            for (int i = movement; i >= 0; i--)
+            for (int i = moveTiles; i >= 0; i--)
             {
                 if (_path[i].CurrentUnit == null)
                 {
@@ -358,5 +356,6 @@ namespace TurnBasedStrategy.Gameplay
             return targetTile;
         }
         #endregion
+
     }
 }
