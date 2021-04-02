@@ -9,7 +9,8 @@ namespace TurnBasedStrategy.Gameplay
     public enum UnitTeam
     {
         player,
-        enemy
+        enemy,
+        fish
     }
     /// <summary>
     /// Class for each ally or enemy unit on the map
@@ -18,11 +19,12 @@ namespace TurnBasedStrategy.Gameplay
     {
         #region variables
         public abstract UnitTeam GetTeam();
+        public abstract UnitTeam[] GetOpposingTeams();
         [Header("Start position")]
         //tile this unit will go to when it is created
         [SerializeField] int startTileX;
         [SerializeField] int startTileY;
-        Tile startTile;
+        protected Tile startTile;
 
         [Header("Stats")]
         [SerializeField] float health = 5;
@@ -53,7 +55,9 @@ namespace TurnBasedStrategy.Gameplay
 
             unitHUD = GetComponentInChildren<UnitHUD>();
             unitHUD.SetHealthBarFillAmount(1);
-            
+
+            TurnControl.instance.AddUnit(this, GetTeam());
+
             GoToStartTile();
         }
 
@@ -82,7 +86,7 @@ namespace TurnBasedStrategy.Gameplay
         /// remove the unit from the current tile and teleport it to the new one
         /// </summary>
         /// <param name="_tile">Tile to move to</param>
-        protected void GoToTile(Tile _tile)
+        public void GoToTile(Tile _tile)
         {
             if (currentTile) currentTile.RemoveUnit();
             currentTile = _tile;
@@ -91,19 +95,17 @@ namespace TurnBasedStrategy.Gameplay
         }
 
         /// <summary>
-        /// for now just calls go to tile, will be used for limiting how many times you can move in a turn
-        /// </summary>
-        /// <param name="_tile">Tile to move to</param>
-        public void MoveToTile(Tile _tile)
-        {
-            GoToTile(_tile);
-        }
-
-        /// <summary>
         /// Moves the unit to its starting position
         /// </summary>
         void GoToStartTile()
         {
+            //if the start tile is already set, go to it
+            if (startTile != null)
+            {
+                GoToTile(startTile);
+                return;
+            }
+
             //if the starting point is off the map, put it back on
             if (startTileX < 0) startTileX = 0;
             else if (startTileX >= Map.instance.GridSize.x) startTileX = Map.instance.GridSize.x - 1;
@@ -217,10 +219,10 @@ namespace TurnBasedStrategy.Gameplay
             unitHUD.SetHealthBarFillAmount(currentHealth / health);
 
             //if on 0 health, die
-            if (currentHealth <= 0) Death();
+            if (currentHealth <= 0) DestroyUnit();
         }
 
-        void Death()
+        protected void DestroyUnit()
         {
             currentTile.RemoveUnit();
             TurnControl.instance.RemoveUnit(this, GetTeam());
@@ -233,13 +235,11 @@ namespace TurnBasedStrategy.Gameplay
         /// <summary>
         /// Finds all enemies in range from the passed tile
         /// </summary>
-        /// <returns></returns>
-        public abstract List<Tile> EnemiesInRange(Tile _tile);
+        public List<Tile> EnemiesInRange(Tile _tile) => UnitsInRange(GetOpposingTeams(), _tile);
         /// <summary>
         /// Finds all enemies in range from the current tile
         /// </summary>
-        /// <returns></returns>
-        public abstract List<Tile> EnemiesInRange();
+        public List<Tile> EnemiesInRange() => UnitsInRange(GetOpposingTeams(), currentTile);
 
         /// <summary>
         /// Get all the units in a given team that are adjacent to this unit
@@ -247,24 +247,24 @@ namespace TurnBasedStrategy.Gameplay
         /// <param name="_team">Team to check for</param>
         /// <param name = "_tile">Tile to check from, use CurrentTile if checking from current tile</param>
         /// <returns>List of units found</returns>
-        protected List<Tile> UnitsInRange(UnitTeam _team, Tile _tile)
+        protected List<Tile> UnitsInRange(UnitTeam[] _teams, Tile _tile)
         {
             List<Tile> unitTiles = new List<Tile>();
 
             if (_tile.upTile)
-                if (CheckTargetTile(_tile.upTile, _team)) 
+                if (CheckTargetTile(_tile.upTile, _teams)) 
                     unitTiles.Add(_tile.upTile);
 
             if (_tile.rightTile) 
-                if (CheckTargetTile(_tile.rightTile, _team)) 
+                if (CheckTargetTile(_tile.rightTile, _teams)) 
                     unitTiles.Add(_tile.rightTile);
 
             if (_tile.downTile) 
-                if (CheckTargetTile(_tile.downTile, _team)) 
+                if (CheckTargetTile(_tile.downTile, _teams)) 
                     unitTiles.Add(_tile.downTile);
 
             if (_tile.leftTile) 
-                if (CheckTargetTile(_tile.leftTile, _team)) 
+                if (CheckTargetTile(_tile.leftTile, _teams)) 
                     unitTiles.Add(_tile.leftTile);
 
             return unitTiles;
@@ -275,11 +275,18 @@ namespace TurnBasedStrategy.Gameplay
         /// </summary>
         /// <param name="_tile">Tile to check</param>
         /// <param name="_team">Team of units to check for</param>
-        bool CheckTargetTile(Tile _tile, UnitTeam _team)
+        bool CheckTargetTile(Tile _tile, UnitTeam[] _teams)
         {
             if (_tile.CurrentUnit == null) return false;
 
-            return _tile.CurrentUnit.GetTeam() == _team;
+            bool teamInTile = false;
+
+            foreach(UnitTeam team in _teams)
+            {
+                if (_tile.CurrentUnit.GetTeam() == team) teamInTile = true;
+            }
+
+            return teamInTile;
         }
 
         /// <summary>
@@ -288,10 +295,12 @@ namespace TurnBasedStrategy.Gameplay
         /// <param name="_tile">Tile to search from</param>
         /// <param name="_team">Team to look for units of</param>
         /// <returns></returns>
-        public Unit FindClosestUnit(Tile _tile, UnitTeam _team)
+        public Unit FindClosestUnit(Tile _tile, UnitTeam[] _teams)
         {
             //Get all the units that can be targeted
-            List<Unit> possibleUnits = TurnControl.instance.GetAllUnitsInTeam(_team);
+            List<Unit> possibleUnits = new List<Unit>();
+            foreach (UnitTeam team in _teams) possibleUnits.AddRange(TurnControl.instance.GetAllUnitsInTeam(team));
+
 
             if (possibleUnits.Count == 0) return null;
             if (possibleUnits.Count == 1) return possibleUnits[0];
@@ -324,6 +333,29 @@ namespace TurnBasedStrategy.Gameplay
         {
             TurnControl.instance.NextUnitMove();
             yield return null;
+        }
+
+        /// <summary>
+        /// Gets a tile as far along a given path as possible
+        /// </summary>
+        /// <param name="_path">Path to try and move along, starting at this unit</param>
+        protected Tile MoveAlongPath(List<Tile> _path)
+        {
+            Tile targetTile = null;
+
+            //return the last tile in the path if movement goes too far
+            if (movement > _path.Count - 1) return _path[_path.Count - 1];
+
+            //move along the path according to how far the unit can move
+            for (int i = movement; i >= 0; i--)
+            {
+                if (_path[i].CurrentUnit == null)
+                {
+                    targetTile = _path[i];
+                    break;
+                }
+            }
+            return targetTile;
         }
         #endregion
     }

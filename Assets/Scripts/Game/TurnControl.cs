@@ -28,6 +28,7 @@ namespace TurnBasedStrategy.Gameplay
 
         List<Unit> playerTeam = new List<Unit>();
         List<Unit> enemyTeam = new List<Unit>();
+        List<Unit> fishTeam = new List<Unit>();
         
         UnitTeam currentTurn = UnitTeam.player;
 
@@ -48,6 +49,9 @@ namespace TurnBasedStrategy.Gameplay
                 case UnitTeam.enemy:
                     enemyTeam.Add(_unit);
                     break;
+                case UnitTeam.fish:
+                    fishTeam.Add(_unit);
+                    break;
             }
         }
 
@@ -61,6 +65,9 @@ namespace TurnBasedStrategy.Gameplay
                 case UnitTeam.enemy:
                     if (enemyTeam.Contains(_unit)) enemyTeam.Remove(_unit);
                     break;
+                case UnitTeam.fish:
+                    if (fishTeam.Contains(_unit)) fishTeam.Remove(_unit);
+                    break;
             }
         }
 
@@ -70,6 +77,7 @@ namespace TurnBasedStrategy.Gameplay
             {
                 case UnitTeam.player: return playerTeam;
                 case UnitTeam.enemy: return enemyTeam;
+                case UnitTeam.fish: return fishTeam;
                 default: return null;
             }
         }
@@ -82,6 +90,7 @@ namespace TurnBasedStrategy.Gameplay
             //Deselect tile
             Map.instance.Deselect();
 
+            //if player turn, start fish turn
             if (currentTurn == UnitTeam.player)
             {
                 foreach (Unit unit in playerTeam)
@@ -90,10 +99,18 @@ namespace TurnBasedStrategy.Gameplay
                 }
                 //disable end turn button
                 endTurnButton.interactable = false;
-                //set turn to enemy and start enemy coroutine
-                currentTurn = UnitTeam.enemy;
-                StartCoroutine(EnemyTurn());
+
+                //set turn to fish and start fish coroutine
+                currentTurn = UnitTeam.fish;
+                StartCoroutine(AITurn(UnitTeam.fish));
             }
+            //if fish turn, start enemy turn
+            else if (currentTurn == UnitTeam.fish)
+            {
+                currentTurn = UnitTeam.enemy;
+                StartCoroutine(AITurn(UnitTeam.enemy));
+            }
+            //if enemy turn, start player turn
             else if (currentTurn == UnitTeam.enemy)
             {
                 //enable end turn button
@@ -124,14 +141,17 @@ namespace TurnBasedStrategy.Gameplay
         /// Goes through and moves every enemy and then ends the enemy turn
         /// </summary>
         /// <returns></returns>
-        public IEnumerator EnemyTurn()
+        public IEnumerator AITurn(UnitTeam _team)
         {
             yield return new WaitForSeconds(waitTime);
 
-            foreach(Unit unit in enemyTeam)
+            List<Unit> unitsInTeam = GetAllUnitsInTeam(_team);
+            int unitsInTeamCount = GetAllUnitsInTeam(_team).Count;
+
+            for (int i = 0; i < unitsInTeamCount; i++)
             {
                 waitingForMove = true;
-                unit.TakeTurn();
+                unitsInTeam[i].TakeTurn();
                 yield return new WaitUntil(() => !waitingForMove);
             }
 

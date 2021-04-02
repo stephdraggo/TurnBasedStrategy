@@ -131,15 +131,6 @@ namespace TurnBasedStrategy.Gameplay
 
         #endregion
 
-        public void ResetRotation()
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
-
-        public void RotateX(float _amount)
-        {
-            transform.Rotate(new Vector3(1, 0, 0), _amount, Space.World);
-        }
 
     }
 }

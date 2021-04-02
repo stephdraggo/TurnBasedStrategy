@@ -243,7 +243,7 @@ namespace TurnBasedStrategy.Gameplay
             Deselect();
 
             //move the unit on the currently selected tile to the tile
-            unit.MoveToTile(_tile);
+            unit.GoToTile(_tile);
 
             //get the enemies adjacent to this unit
             List<Tile> rangeTiles = unit.EnemiesInRange();
@@ -316,7 +316,7 @@ namespace TurnBasedStrategy.Gameplay
                     }
 
                     //move to it
-                    unit.MoveToTile(targetTile);
+                    unit.GoToTile(targetTile);
                 } 
             }
 

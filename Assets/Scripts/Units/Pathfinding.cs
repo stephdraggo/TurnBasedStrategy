@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Linq;
+
 namespace TurnBasedStrategy.Gameplay
 {
     public static class Pathfinding
@@ -29,7 +31,7 @@ namespace TurnBasedStrategy.Gameplay
         /// <param name="_tileB">Goal to reach</param>
         /// <param name="_unit">Unit finding the path for, affects what tiles can be walked on</param>
         /// <returns></returns>
-        public static List<Tile> FindShortestPath(Tile _tileA, Tile _tileB, Unit _unit)
+        public static List<Tile> FindShortestPath(Tile _tileA, Tile _tileB, Unit _unit, bool _preferVeritcal = false)
         {
             //Reset the previous tiles stored on each tile for making a new path
             Map.instance.ResetTilePathData();
@@ -77,10 +79,22 @@ namespace TurnBasedStrategy.Gameplay
                 //if the tile is the goal, end the search
                 if (currentTile == goalTile) break;
 
-                if (currentTile.rightTile) AddTile(currentTile.rightTile, currentTile, ref checkTiles, ref reachedTiles);
-                if (currentTile.leftTile) AddTile(currentTile.leftTile, currentTile, ref checkTiles, ref reachedTiles);
-                if (currentTile.upTile) AddTile(currentTile.upTile, currentTile, ref checkTiles, ref reachedTiles);
-                if (currentTile.downTile) AddTile(currentTile.downTile, currentTile, ref checkTiles, ref reachedTiles);
+                //if prefers moving vertical first, check up and down tiles before right and left
+                if (_preferVeritcal)
+                {
+                    if (currentTile.downTile) AddTile(currentTile.downTile, currentTile, ref checkTiles, ref reachedTiles);
+                    if (currentTile.upTile) AddTile(currentTile.upTile, currentTile, ref checkTiles, ref reachedTiles);
+                    if (currentTile.rightTile) AddTile(currentTile.rightTile, currentTile, ref checkTiles, ref reachedTiles);
+                    if (currentTile.leftTile) AddTile(currentTile.leftTile, currentTile, ref checkTiles, ref reachedTiles);
+                }
+                else
+                {
+                    if (currentTile.rightTile) AddTile(currentTile.rightTile, currentTile, ref checkTiles, ref reachedTiles);
+                    if (currentTile.leftTile) AddTile(currentTile.leftTile, currentTile, ref checkTiles, ref reachedTiles);
+                    if (currentTile.downTile) AddTile(currentTile.downTile, currentTile, ref checkTiles, ref reachedTiles);
+                    if (currentTile.upTile) AddTile(currentTile.upTile, currentTile, ref checkTiles, ref reachedTiles);
+                }
+                
                 
 
                 checkTiles.Remove(currentTile);
@@ -115,6 +129,7 @@ namespace TurnBasedStrategy.Gameplay
             if (_tile == null) return;
             if (_reachedTiles.Contains(_tile)) return;
             if (!_tile.IsTileWalkable(unit)) return;
+            if (_tile.CurrentUnit && unit.GetOpposingTeams().Contains(_tile.CurrentUnit.GetTeam())) return;
 
             _tile.previousTile = _checkingFrom;
 

@@ -7,15 +7,7 @@ namespace TurnBasedStrategy.Gameplay
     public class Enemy : Unit
     {
         public override UnitTeam GetTeam() => UnitTeam.enemy;
-
-        public override List<Tile> EnemiesInRange(Tile _tile) => UnitsInRange(UnitTeam.player, _tile);
-        public override List<Tile> EnemiesInRange() => UnitsInRange(UnitTeam.player, currentTile);
-
-        private new void Start()
-        {
-            TurnControl.instance.AddUnit(this, UnitTeam.enemy);
-            base.Start();
-        }
+        public override UnitTeam[] GetOpposingTeams() => new UnitTeam[] { UnitTeam.player, UnitTeam.fish };
 
         #region take turn
         protected override IEnumerator TakeTurnRoutine()
@@ -88,10 +80,8 @@ namespace TurnBasedStrategy.Gameplay
         /// </summary>
         Tile GetClosestTileToEnemy()
         {
-            Tile targetTile = null;
-
             //Find the closest unit outside of range
-            Unit targetUnit = FindClosestUnit(currentTile, UnitTeam.player);
+            Unit targetUnit = FindClosestUnit(currentTile, GetOpposingTeams());
 
             //if there are no units to target, return
             if (targetUnit == null) return null;
@@ -99,19 +89,12 @@ namespace TurnBasedStrategy.Gameplay
             //Find the shortest path to the unit
             List<Tile> pathTiles = Pathfinding.FindShortestPath(currentTile, targetUnit.CurrentTile, targetUnit);
 
-            //move along the path according to how far the unit can move
-            for(int i = movement; i >= 0; i--)
-            {
-                if (pathTiles[i].CurrentUnit == null)
-                {
-                    targetTile = pathTiles[i];
-                    break;
-                }
-            }
+            //Return a tile as far along the path as possible
+            return MoveAlongPath(pathTiles);
 
-            return targetTile;
         }
 
+        
         /// <summary>
         /// Returns a random tile to move to
         /// </summary>
