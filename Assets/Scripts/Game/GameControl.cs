@@ -29,7 +29,10 @@ namespace TurnBasedStrategy.Gameplay
         }
         [SerializeField] List<StartingUnit> startingUnits;
 
-        private void Start() => StartCoroutine(SpawnStartingUnits());
+        private void Start()
+        {
+            StartCoroutine(SpawnStartingUnits());
+        }
 
         bool spawning;
 
@@ -41,12 +44,15 @@ namespace TurnBasedStrategy.Gameplay
             yield return new WaitUntil(() => !spawning);
             foreach (StartingUnit _unit in startingUnits)
             {
-                if (!UnitSpawner.instance.SpawnUnit(_unit.unitPrefab, _unit.startPosition))
+                if (UnitSpawner.instance.SpawnUnit(_unit.unitPrefab, _unit.startPosition) == null)
                 {
                     Debug.Log("No free space to spawn starting unit!");
                 }
                 yield return null;
             }
+
+            SpawnNewBoat();
+            boatSpawnCount = boatSpawnInterval;
 
             TurnControl.instance.StartGame();
         }
@@ -55,11 +61,6 @@ namespace TurnBasedStrategy.Gameplay
         public void StartPlayerTurn()
         {
             //Things to happen at the start of the player turn...
-        }
-
-        public void StartEnemyTurn()
-        {
-            //Spawn hooks and stuff
         }
 
         #region Fish spawning
@@ -131,6 +132,81 @@ namespace TurnBasedStrategy.Gameplay
             }
 
             spawning = false;
+        }
+        #endregion
+
+        #region boats
+        [Header("Enemies")]
+        [SerializeField] Boat boatPrefab;
+        [SerializeField] Enemy hookPrefab;
+        //List of boats
+        List<Boat> boats = new List<Boat>();
+
+        [Header("Boat spawning")]
+        [SerializeField] int maxBoats = 2;
+        [SerializeField] int boatSpawnInterval = 5;
+        int boatSpawnCount;
+        [SerializeField] float boatSpawnY, boatSpawnZ;
+
+        public void SpawnEnemies()
+        {
+            if (boatSpawnCount > 0) boatSpawnCount--;
+            else if (boats.Count < maxBoats)
+            {
+                SpawnNewBoat();
+                boatSpawnCount = boatSpawnInterval;
+            }
+            SpawnHooks();
+        }
+
+        List<int> GetValidBoatLocations()
+        {
+            List<int> validBoatLocations = new List<int>();
+
+            //Get a list of all possible boat locations,
+            //gridsize - 1 is used because boats should not spawn on the last tile or they will be half off the map
+            for (int i = 0; i < Map.instance.GridSize.x - 1; i++) validBoatLocations.Add(i);
+
+            //For each boat on the map
+            foreach(Boat boat in boats)
+            {
+                //Remove the locations this boat is taking up from the list
+                int[] locationsToRemove = new int[3] { boat.PositionX - 1, boat.PositionX, boat.PositionX + 1 };
+                foreach (int location in locationsToRemove) if (validBoatLocations.Contains(location)) validBoatLocations.Remove(location);
+            }
+            
+
+            return validBoatLocations;
+        }
+
+        /// <summary>
+        /// Places a new boat in the scene
+        /// </summary>
+        void SpawnNewBoat()
+        {
+            List<int> validBoatLocations = GetValidBoatLocations();
+            if (validBoatLocations.Count == 0) return;
+
+            //Get a random spawn position from the boat locations list
+            int spawnPositionX = validBoatLocations[Random.Range(0, validBoatLocations.Count)];
+
+            //spawn the boat and set it up
+            Boat newBoat = Instantiate(boatPrefab, new Vector3(transform.position.x, boatSpawnY, boatSpawnZ), transform.rotation) as Boat;
+            newBoat.Setup(spawnPositionX, hookPrefab);
+
+            //Add the boat to the boats list
+            boats.Add(newBoat);
+
+        }
+
+        public void RemoveBoat(Boat _boat)
+        {
+            if (boats.Contains(_boat)) boats.Remove(_boat);
+        }
+
+        void SpawnHooks()
+        {
+            foreach (Boat boat in boats) boat.SpawnHook();
         }
         #endregion
     }

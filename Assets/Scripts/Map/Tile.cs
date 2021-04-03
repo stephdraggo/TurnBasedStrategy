@@ -39,7 +39,6 @@ namespace TurnBasedStrategy.Gameplay
         SelectionState selectionState = SelectionState.none;
 
         public TileType TileType => tileType;
-        
 
         [HideInInspector]
         //variables for each of the tiles neighbours

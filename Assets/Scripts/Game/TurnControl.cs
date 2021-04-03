@@ -117,20 +117,21 @@ namespace TurnBasedStrategy.Gameplay
                 currentTurn = UnitTeam.fish;
                 StartCoroutine(AITurn(UnitTeam.fish));
             }
-            //if fish turn, start enemy turn
+            //if fish turn, spawn new fish and start enemy turn
             else if (currentTurn == UnitTeam.fish)
             {
                 //Spawn fish
                 GameControl.instance.SpawnFish();
 
-                GameControl.instance.StartEnemyTurn();
-
                 currentTurn = UnitTeam.enemy;
                 StartCoroutine(AITurn(UnitTeam.enemy));
             }
-            //if enemy turn, start player turn
+            //if enemy turn, spawn new enemies and start player turn
             else if (currentTurn == UnitTeam.enemy)
             {
+                //Spawn hooks
+                GameControl.instance.SpawnEnemies();
+
                 GameControl.instance.StartPlayerTurn();
 
                 //enable end turn button

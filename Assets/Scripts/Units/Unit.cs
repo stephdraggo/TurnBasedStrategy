@@ -216,7 +216,7 @@ namespace TurnBasedStrategy.Gameplay
             if (currentHealth <= 0) DestroyUnit();
         }
 
-        protected void DestroyUnit()
+        protected virtual void DestroyUnit()
         {
             currentTile.RemoveUnit();
             TurnControl.instance.RemoveUnit(this, GetTeam());

@@ -25,12 +25,12 @@ namespace TurnBasedStrategy.Gameplay
         /// <param name="_unitPrefab">Prefab holding a script that inherits from unit</param>
         /// <param name="_gridPosition">Where on the grid to spawn the unit</param>
         /// <returns> false if the tile was not valid or a unit was already there</returns>
-        public bool SpawnUnit(Unit _unit, Vector2Int _gridPosition)
+        public Unit SpawnUnit(Unit _unit, Vector2Int _gridPosition)
         {
             //check that the tile is valid
             Tile spawnTile = Map.instance.Tiles[_gridPosition.x, _gridPosition.y];
-            if (!spawnTile.IsTileWalkable(_unit)) return false;
-            if (spawnTile.CurrentUnit != null) return false;
+            if (!spawnTile.IsTileWalkable(_unit)) return null;
+            if (spawnTile.CurrentUnit != null) return null;
 
             //instantiate the unit
             Unit newUnit = Instantiate(_unit, transform.position, transform.rotation);
@@ -41,7 +41,7 @@ namespace TurnBasedStrategy.Gameplay
             //add the unit to its team
             TurnControl.instance.AddUnit(newUnit, newUnit.GetTeam());
 
-            return true;
+            return newUnit;
         }
 
     }

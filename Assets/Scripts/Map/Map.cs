@@ -224,6 +224,20 @@ namespace TurnBasedStrategy.Gameplay
                 }
             }
 
+            //show enemies next to the player unit that can be attacked 
+            if (isPlayerUnit)
+            {
+                List<Tile> enemiesFound = selectedTile.CurrentUnit.EnemiesInRange();
+                if (enemiesFound.Count > 0)
+                {
+                    foreach (Tile enemyTile in enemiesFound)
+                    {
+                        enemyTile.SetSelectionState(SelectionState.showAttack);
+                        otherDisplayedTiles.Add(enemyTile);
+                    }
+                }
+            }
+
         }
 
         #endregion

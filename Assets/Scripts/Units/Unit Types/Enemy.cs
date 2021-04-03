@@ -6,6 +6,9 @@ namespace TurnBasedStrategy.Gameplay
 {
     public class Enemy : Unit
     {
+        //Boat that is using this enemy
+        Boat boat;
+
         public override UnitTeam GetTeam() => UnitTeam.enemy;
         public override UnitTeam[] GetOpposingTeams() => new UnitTeam[] { UnitTeam.player, UnitTeam.fish };
 
@@ -125,7 +128,13 @@ namespace TurnBasedStrategy.Gameplay
         }
         #endregion
 
+        public void SetBoat(Boat _boat) => boat = _boat;
 
+        protected override void DestroyUnit()
+        {
+            if (boat) boat.RemoveHook();
+            base.DestroyUnit();
+        }
 
     }
 }

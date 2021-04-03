@@ -64,7 +64,7 @@ namespace TurnBasedStrategy.Gameplay
             //If the fish is leaving, destroy it
             if (leave)
             {
-                foreach (Transform child in transform) child.gameObject.SetActive(false);
+                HideUnit();
                 yield return new WaitForSeconds(TurnControl.instance.WaitTime);
                 TurnControl.instance.NextUnitMove();
                 DestroyUnit();
