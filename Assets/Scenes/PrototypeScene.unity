@@ -152,7 +152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154507, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154507, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_LocalRotation.w
@@ -184,7 +184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4915257301749840361, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: tileType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -397,7 +397,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 4
   m_Depth: -1
   m_CullingMask:
@@ -422,7 +422,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548745930}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: -10}
+  m_LocalPosition: {x: 0, y: 4, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -532,7 +532,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154507, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154507, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_LocalRotation.w
@@ -603,7 +603,7 @@ MonoBehaviour:
   - unitPrefab: {fileID: 5791539473809840795, guid: 979c93ec397d07b40a032d75bae3ad9a, type: 3}
     startPosition: {x: 0, y: 0}
   - unitPrefab: {fileID: 5791539473809840795, guid: 979c93ec397d07b40a032d75bae3ad9a, type: 3}
-    startPosition: {x: 2, y: 0}
+    startPosition: {x: 4, y: 0}
   fishPrefab: {fileID: 342397017514480741, guid: 6dd89faf86a548a4fad86813af477745, type: 3}
   maxFishOnBoard: 5
   startingFishOnBoard: 2
@@ -614,8 +614,8 @@ MonoBehaviour:
   hookPrefab: {fileID: 6234601547544121583, guid: 871e06f8ee3d25640936b8155b826ed8, type: 3}
   maxBoats: 2
   boatSpawnInterval: 4
-  boatSpawnY: 7
-  boatSpawnZ: 1.1
+  boatSpawnY: 8
+  boatSpawnZ: 7
 --- !u!4 &818160941
 Transform:
   m_ObjectHideFlags: 0
@@ -835,7 +835,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154507, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154507, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1074,7 +1074,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154507, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154507, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1137,7 +1137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154507, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154507, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1173,7 +1173,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 2f7b438b113d09a4e90a512feb7ff0c6, type: 2}
     - target: {fileID: 7790728750042046427, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: tileType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -1414,6 +1414,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8827848986181512114, guid: d9be6f77f8c7b13438e16bac6b5399ef, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9be6f77f8c7b13438e16bac6b5399ef, type: 3}
 --- !u!224 &1717732850 stripped
@@ -1494,7 +1498,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1985115122}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.5, z: 0}
+  m_LocalPosition: {x: 0, y: 4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1136602414}
@@ -1546,7 +1550,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154507, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154507, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1672,7 +1676,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2162178449811928790, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: tileType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2382313484706154504, guid: 25c7c62f909fcb3408a1b71a97136476, type: 3}
       propertyPath: m_Name

@@ -110,7 +110,11 @@ namespace TurnBasedStrategy.Gameplay
         {
             if (currentTile) currentTile.RemoveUnit();
             currentTile = _tile;
-            transform.position = new Vector3(_tile.transform.position.x, _tile.transform.position.y, transform.position.z);
+            //2D board:
+            //transform.position = new Vector3(_tile.transform.position.x, _tile.transform.position.y, transform.position.z);
+            //3D board:
+            transform.position = _tile.transform.position;
+
             _tile.SetUnit(this);
         }
 

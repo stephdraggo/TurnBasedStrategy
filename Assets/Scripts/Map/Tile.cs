@@ -30,11 +30,18 @@ namespace TurnBasedStrategy.Gameplay
         [SerializeField] TileType tileType;
         Vector2Int gridPosition;
         public Vector2Int GridPosition => gridPosition;
-        [Header("Selection sprite")]
+        [Header("Selection")]
+        // SPRITE
         //reference to sprite renderer of selection
-        [SerializeField] SpriteRenderer spriteRenderer;
+        [SerializeField] SpriteRenderer spriteRendererFront;
+        [SerializeField] SpriteRenderer spriteRendererTop;
         //sprites for the different selection states
-        [SerializeField] Sprite selectedSprite, unitSelectionSprite, movementSprite, attackSprite, enemyMovementSprite;
+        [SerializeField] Sprite unitSelectionSprite, movementSprite, attackSprite;
+        
+        /*CUBE
+        [SerializeField] MeshRenderer meshRenderer;
+        [SerializeField] Material unitSelectionMat, movementMat, attackMat;
+        */
         
         SelectionState selectionState = SelectionState.none;
 
@@ -55,8 +62,9 @@ namespace TurnBasedStrategy.Gameplay
         #region selection
         private void Start()
         {
-            //disable the selection sprite
-            spriteRenderer.gameObject.SetActive(false);
+            //disable the selection
+            spriteRendererFront.gameObject.SetActive(false);
+            spriteRendererTop.gameObject.SetActive(false);
         }
 
         public void SetGridPosition(Vector2Int _gridPosition) => gridPosition = _gridPosition;
@@ -76,27 +84,30 @@ namespace TurnBasedStrategy.Gameplay
             //set the selection state of the tile
             selectionState = _state;
             //enable the sprite renderer for selection
-            spriteRenderer.gameObject.SetActive(true);
+            spriteRendererFront.gameObject.SetActive(true);
+            spriteRendererTop.gameObject.SetActive(true);
             //set the selection sprite based on the state
             switch (_state)
             {
                 case SelectionState.none:
-                    spriteRenderer.gameObject.SetActive(false);
-                    break;
                 case SelectionState.selected:
-                    spriteRenderer.sprite = selectedSprite;
+                    spriteRendererFront.gameObject.SetActive(false);
+                    spriteRendererTop.gameObject.SetActive(false);
                     break;
                 case SelectionState.ShowUnitSelection:
-                    spriteRenderer.sprite = unitSelectionSprite;
+                    spriteRendererFront.sprite = unitSelectionSprite;
+                    spriteRendererTop.sprite = unitSelectionSprite;
+                    //meshRenderer.material = unitSelectionMat;
                     break;
                 case SelectionState.showMovement:
-                    spriteRenderer.sprite = movementSprite;
+                    spriteRendererFront.sprite = movementSprite;
+                    spriteRendererTop.sprite = movementSprite;
+                    //meshRenderer.material = movementMat;
                     break;
                 case SelectionState.showAttack:
-                    spriteRenderer.sprite = attackSprite;
-                    break;
                 case SelectionState.showEnemyMovement:
-                    spriteRenderer.sprite = enemyMovementSprite;
+                    spriteRendererFront.sprite = attackSprite;
+                    spriteRendererTop.sprite = attackSprite;
                     break;
                     
             }
