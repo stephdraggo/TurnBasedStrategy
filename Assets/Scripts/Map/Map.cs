@@ -238,6 +238,10 @@ namespace TurnBasedStrategy.Gameplay
                 }
             }
 
+            //fix the selection boxes
+            selectedTile.FixSelectionBox();
+            foreach (Tile tile in otherDisplayedTiles) tile.FixSelectionBox();
+
         }
 
         #endregion

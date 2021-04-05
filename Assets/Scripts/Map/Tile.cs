@@ -31,18 +31,11 @@ namespace TurnBasedStrategy.Gameplay
         Vector2Int gridPosition;
         public Vector2Int GridPosition => gridPosition;
         [Header("Selection")]
-        // SPRITE
-        //reference to sprite renderer of selection
-        [SerializeField] SpriteRenderer spriteRendererFront;
-        [SerializeField] SpriteRenderer spriteRendererTop;
-        //sprites for the different selection states
-        [SerializeField] Sprite unitSelectionSprite, movementSprite, attackSprite;
-        
-        /*CUBE
-        [SerializeField] MeshRenderer meshRenderer;
+
+        MeshRenderer[] planes;
+        [SerializeField] MeshRenderer topPlane, frontPlane, leftPlane, rightPlane;
         [SerializeField] Material unitSelectionMat, movementMat, attackMat;
-        */
-        
+
         SelectionState selectionState = SelectionState.none;
 
         public TileType TileType => tileType;
@@ -62,9 +55,10 @@ namespace TurnBasedStrategy.Gameplay
         #region selection
         private void Start()
         {
+            //setup planes
+            planes = new MeshRenderer[] { topPlane, frontPlane, leftPlane, rightPlane };
             //disable the selection
-            spriteRendererFront.gameObject.SetActive(false);
-            spriteRendererTop.gameObject.SetActive(false);
+            foreach (MeshRenderer plane in planes) plane.gameObject.SetActive(false);
         }
 
         public void SetGridPosition(Vector2Int _gridPosition) => gridPosition = _gridPosition;
@@ -84,32 +78,45 @@ namespace TurnBasedStrategy.Gameplay
             //set the selection state of the tile
             selectionState = _state;
             //enable the sprite renderer for selection
-            spriteRendererFront.gameObject.SetActive(true);
-            spriteRendererTop.gameObject.SetActive(true);
+            foreach (MeshRenderer plane in planes) plane.gameObject.SetActive(true);
             //set the selection sprite based on the state
             switch (_state)
             {
                 case SelectionState.none:
                 case SelectionState.selected:
-                    spriteRendererFront.gameObject.SetActive(false);
-                    spriteRendererTop.gameObject.SetActive(false);
+                    foreach (MeshRenderer plane in planes) plane.gameObject.SetActive(false);
                     break;
                 case SelectionState.ShowUnitSelection:
-                    spriteRendererFront.sprite = unitSelectionSprite;
-                    spriteRendererTop.sprite = unitSelectionSprite;
-                    //meshRenderer.material = unitSelectionMat;
+                    foreach (MeshRenderer plane in planes) plane.material = unitSelectionMat;
                     break;
                 case SelectionState.showMovement:
-                    spriteRendererFront.sprite = movementSprite;
-                    spriteRendererTop.sprite = movementSprite;
-                    //meshRenderer.material = movementMat;
+                    foreach (MeshRenderer plane in planes) plane.material = movementMat;
                     break;
                 case SelectionState.showAttack:
                 case SelectionState.showEnemyMovement:
-                    spriteRendererFront.sprite = attackSprite;
-                    spriteRendererTop.sprite = attackSprite;
+                    foreach (MeshRenderer plane in planes) plane.material = attackMat;
                     break;
                     
+            }
+        }
+
+        /// <summary>
+        /// hides the left ot right of the selection box based on whether the next tile is selected
+        /// </summary>
+        public void FixSelectionBox()
+        {
+            //if the tile to the left is selected
+            if (gridPosition.x > 0 && Map.instance.Tiles[gridPosition.x - 1, gridPosition.y].selectionState != SelectionState.none)
+            {
+                //hide the left plane
+                leftPlane.gameObject.SetActive(false);
+            }
+
+            //if the tile to the right is selected
+            if (gridPosition.x < Map.instance.GridSize.x - 1 && Map.instance.Tiles[gridPosition.x + 1, gridPosition.y].selectionState != SelectionState.none)
+            {
+                //hide the right plane
+                rightPlane.gameObject.SetActive(false);
             }
         }
         #endregion
