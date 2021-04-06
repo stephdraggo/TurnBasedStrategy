@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 using Serializable = System.SerializableAttribute;
 
@@ -20,6 +22,56 @@ namespace TurnBasedStrategy.Gameplay
         }
         #endregion
 
+        private void Start()
+        {
+            StartCoroutine(SpawnStartingUnits());
+            SetWinConditionText();
+        }
+
+        #region win/lose game
+
+        enum WinCondition
+        {
+            surviveTurns,
+            defeatBoats
+        }
+
+        [SerializeField] WinCondition winCondition;
+        [SerializeField] int winConditionValue;
+
+        [SerializeField] Text winConditionText;
+
+        public void StartPlayerTurn()
+        {
+            //if enough turns have passed, win the game
+            if (winCondition == WinCondition.surviveTurns && TurnControl.instance.TurnNumber > winConditionValue) WinGame();
+        }
+
+        public void WinGame()
+        {
+            //To do: Win screen
+            SceneManager.LoadScene(0);
+        }
+
+        public void LoseGame()
+        {
+            //To do: Lose screen
+            SceneManager.LoadScene(0);
+        }
+
+        void SetWinConditionText()
+        {
+            switch (winCondition)
+            {
+                case WinCondition.surviveTurns: winConditionText.text = "Survive " + winConditionValue + " turn" + (winConditionValue - boatsDestroyed != 1 ? "s" : "");
+                    break;
+                case WinCondition.defeatBoats: winConditionText.text = "Defeat " + (winConditionValue - boatsDestroyed) + " boat" + (winConditionValue - boatsDestroyed != 1 ? "s" : "");
+                    break;
+            }
+        }
+
+        #endregion
+
         #region spawn starting units
         [Serializable]
         struct StartingUnit
@@ -28,11 +80,6 @@ namespace TurnBasedStrategy.Gameplay
             public Vector2Int startPosition;
         }
         [SerializeField] List<StartingUnit> startingUnits;
-
-        private void Start()
-        {
-            StartCoroutine(SpawnStartingUnits());
-        }
 
         bool spawning;
 
@@ -57,11 +104,6 @@ namespace TurnBasedStrategy.Gameplay
             TurnControl.instance.StartGame();
         }
         #endregion
-
-        public void StartPlayerTurn()
-        {
-            //Things to happen at the start of the player turn...
-        }
 
         #region Fish spawning
 
@@ -148,6 +190,8 @@ namespace TurnBasedStrategy.Gameplay
         int boatSpawnCount;
         [SerializeField] float boatSpawnY, boatSpawnZ;
 
+        int boatsDestroyed = 0;
+
         public void SpawnEnemies()
         {
             if (boatSpawnCount > 0) boatSpawnCount--;
@@ -202,6 +246,10 @@ namespace TurnBasedStrategy.Gameplay
         public void RemoveBoat(Boat _boat)
         {
             if (boats.Contains(_boat)) boats.Remove(_boat);
+
+            boatsDestroyed++;
+
+            if (winCondition == WinCondition.defeatBoats && boatsDestroyed >= winConditionValue) WinGame();
         }
 
         void SpawnHooks()
@@ -209,5 +257,7 @@ namespace TurnBasedStrategy.Gameplay
             foreach (Boat boat in boats) boat.SpawnHook();
         }
         #endregion
+
+
     }
 }

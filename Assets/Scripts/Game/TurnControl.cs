@@ -69,6 +69,7 @@ namespace TurnBasedStrategy.Gameplay
             {
                 case UnitTeam.player:
                     if (playerTeam.Contains(_unit)) playerTeam.Remove(_unit);
+                    if (playerTeam.Count == 0) PlayerTeamEmpty();
                     break;
                 case UnitTeam.enemy:
                     if (enemyTeam.Contains(_unit)) enemyTeam.Remove(_unit);
@@ -89,6 +90,8 @@ namespace TurnBasedStrategy.Gameplay
                 default: return null;
             }
         }
+
+        void PlayerTeamEmpty() => GameControl.instance.LoseGame();
 
         #endregion
 
@@ -162,9 +165,9 @@ namespace TurnBasedStrategy.Gameplay
         {
             SetLoadingPanelVisibility(false);
 
-            GameControl.instance.StartPlayerTurn();
-
             SetTurnNumberText();
+
+            GameControl.instance.StartPlayerTurn();
 
             foreach (Unit unit in playerTeam)
             {
