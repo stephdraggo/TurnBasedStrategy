@@ -15,46 +15,44 @@ namespace TurnBasedStrategy.Menus
 
 
         [SerializeField, Tooltip("Difficulty selection toggle.")]
-        private Toggle easy, medium, hard, helpAvailable;
+        private Toggle easy, medium, hard;
 
         void Start()
         {
             difficulty = DifficultyLevel.Easy;
 
-            easy.isOn = true;
-            medium.isOn = false;
-            hard.isOn = false;
+            SelectEasy();
         }
 
         #region Canvas Methods
-        public void SelectEasy(bool _isOn)
+        public void SelectEasy()
         {
-            if (_isOn)
             {
                 difficulty = DifficultyLevel.Easy;
 
+                easy.isOn = true;
                 medium.isOn = false;
                 hard.isOn = false;
             }
         }
-        public void SelectMedium(bool _isOn)
+        public void SelectMedium()
         {
-            if (_isOn)
             {
                 difficulty = DifficultyLevel.Medium;
 
                 easy.isOn = false;
+                medium.isOn = true;
                 hard.isOn = false;
             }
         }
-        public void SelectHard(bool _isOn)
+        public void SelectHard()
         {
-            if (_isOn)
             {
                 difficulty = DifficultyLevel.Hard;
 
                 easy.isOn = false;
                 medium.isOn = false;
+                hard.isOn = true;
             }
         }
         #endregion
