@@ -2393,7 +2393,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1988659659}
+        m_TargetAssemblyTypeName: TurnBasedStrategy.Menus.Difficulty, Assembly-CSharp
+        m_MethodName: SelectMedium
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!114 &5561675214857932778
 MonoBehaviour:
@@ -3359,6 +3371,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8714523004271387758}
   - component: {fileID: 8714523004271387757}
+  - component: {fileID: 1988659659}
   m_Layer: 5
   m_Name: Difficulty Selection Toggles
   m_TagString: Untagged
@@ -3414,6 +3427,22 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1988659659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523004271387759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b524511086e1f74587452f88c2024cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  easy: {fileID: 8714523005150642374}
+  medium: {fileID: 8714523004081216501}
+  hard: {fileID: 8714523004375199766}
+  helpAvailable: {fileID: 8714523005257924439}
 --- !u!1 &8714523004273082067
 GameObject:
   m_ObjectHideFlags: 0
@@ -3769,7 +3798,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1988659659}
+        m_TargetAssemblyTypeName: TurnBasedStrategy.Menus.Difficulty, Assembly-CSharp
+        m_MethodName: SelectHard
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!114 &9142932744247696845
 MonoBehaviour:
@@ -6855,7 +6896,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1988659659}
+        m_TargetAssemblyTypeName: TurnBasedStrategy.Menus.Difficulty, Assembly-CSharp
+        m_MethodName: SelectEasy
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!114 &4506121947172883777
 MonoBehaviour:
@@ -7628,6 +7681,7 @@ GameObject:
   - component: {fileID: 8714523005257924424}
   - component: {fileID: 8714523005257924439}
   - component: {fileID: 755931962181601180}
+  - component: {fileID: 241432734}
   m_Layer: 5
   m_Name: Hint Toggle
   m_TagString: Untagged
@@ -7702,7 +7756,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 241432734}
+        m_TargetAssemblyTypeName: TurnBasedStrategy.Menus.HelpUI, Assembly-CSharp
+        m_MethodName: ShowHelpfulUI
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!114 &755931962181601180
 MonoBehaviour:
@@ -7718,6 +7784,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayText: Show UI hints for dangerous moves. Not implemented.
   displayArea: {fileID: 946372320637690874}
+--- !u!114 &241432734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523005257924425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b419df7a98742419262e6d0a285c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8714523005312042274
 GameObject:
   m_ObjectHideFlags: 0
