@@ -1,5 +1,84 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5849343987373392473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5085458508397743788}
+  - component: {fileID: 8090579514184331496}
+  - component: {fileID: 946372320637690874}
+  m_Layer: 5
+  m_Name: Help Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5085458508397743788
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5849343987373392473}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8714523003540160226}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -199.99994, y: -209.99}
+  m_SizeDelta: {x: 400, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8090579514184331496
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5849343987373392473}
+  m_CullTransparentMesh: 1
+--- !u!114 &946372320637690874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5849343987373392473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 6
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 
 --- !u!1 &8714523003345524348
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,6 +367,7 @@ GameObject:
   - component: {fileID: 8714523003447545632}
   - component: {fileID: 8714523003447545647}
   - component: {fileID: 8714523003447545646}
+  - component: {fileID: 1347996994315823090}
   m_Layer: 5
   m_Name: Fullscreen Toggle
   m_TagString: Untagged
@@ -376,6 +456,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63a7d25078435ac4ab72b41edcd5d123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1347996994315823090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523003447545633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Switch display between fullscreen and windowed.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523003457715900
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +483,7 @@ GameObject:
   - component: {fileID: 8714523003457715897}
   - component: {fileID: 8714523003457715898}
   - component: {fileID: 8714523003457715847}
+  - component: {fileID: 8707582835556906539}
   m_Layer: 5
   m_Name: Quality Dropdown
   m_TagString: Untagged
@@ -527,6 +622,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bec2648d5dbb114e8b0eca20f8e8c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8707582835556906539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523003457715900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Choose quality of graphics.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523003496115592
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,6 +649,7 @@ GameObject:
   - component: {fileID: 8714523003496115605}
   - component: {fileID: 8714523003496115606}
   - component: {fileID: 8714523003496115603}
+  - component: {fileID: 3749339150459073025}
   m_Layer: 5
   m_Name: Options Button
   m_TagString: Untagged
@@ -662,6 +772,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
+--- !u!114 &3749339150459073025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523003496115592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Show options menu.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523003527134872
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,6 +973,7 @@ RectTransform:
   - {fileID: 8714523003593371202}
   - {fileID: 8714523004110898393}
   - {fileID: 8714523003717806805}
+  - {fileID: 5085458508397743788}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1373,6 +1498,7 @@ GameObject:
   - component: {fileID: 8714523003571299891}
   - component: {fileID: 8714523003571299890}
   - component: {fileID: 8714523003571299889}
+  - component: {fileID: 5903809718807130792}
   m_Layer: 5
   m_Name: Mute Toggle
   m_TagString: Untagged
@@ -1463,6 +1589,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mixer: {fileID: 0}
   exposedParamName: 
+--- !u!114 &5903809718807130792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523003571299892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Mute all audio.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523003593371203
 GameObject:
   m_ObjectHideFlags: 0
@@ -2056,7 +2196,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Net (Medium)
+  m_Text: Fishing Net
 --- !u!1 &8714523003970937011
 GameObject:
   m_ObjectHideFlags: 0
@@ -2178,6 +2318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8714523004081216502}
   - component: {fileID: 8714523004081216501}
+  - component: {fileID: 5561675214857932778}
   m_Layer: 5
   m_Name: Medium
   m_TagString: Untagged
@@ -2254,6 +2395,20 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &5561675214857932778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523004081216503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Medium. Difficulty scaling not implemented.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523004089132204
 GameObject:
   m_ObjectHideFlags: 0
@@ -2495,6 +2650,7 @@ GameObject:
   - component: {fileID: 8714523004125186960}
   - component: {fileID: 8714523004125186961}
   - component: {fileID: 8714523004125186974}
+  - component: {fileID: 595513349438893055}
   m_Layer: 5
   m_Name: Play Button
   m_TagString: Untagged
@@ -2616,7 +2772,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48fa41739c3f6a84db85e2c4434aba09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: Assets/Scenes/Menus.unity
+  scene: Assets/Scenes/PrototypeScene.unity
+--- !u!114 &595513349438893055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523004125186963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Play with current selections.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523004153662335
 GameObject:
   m_ObjectHideFlags: 0
@@ -2705,6 +2875,7 @@ GameObject:
   - component: {fileID: 8714523004244134866}
   - component: {fileID: 8714523004244134867}
   - component: {fileID: 8714523004244134864}
+  - component: {fileID: 4682557095315913018}
   m_Layer: 5
   m_Name: How To Play Button
   m_TagString: Untagged
@@ -2827,6 +2998,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 4
+--- !u!114 &4682557095315913018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523004244134869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Show play instructions. Not implemented.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523004260115575
 GameObject:
   m_ObjectHideFlags: 0
@@ -2905,7 +3090,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Fishing Pole (Easy)
+  m_Text: Fishing Pole
 --- !u!1 &8714523004269360864
 GameObject:
   m_ObjectHideFlags: 0
@@ -2919,6 +3104,7 @@ GameObject:
   - component: {fileID: 8714523004269360877}
   - component: {fileID: 8714523004269360878}
   - component: {fileID: 8714523004269360875}
+  - component: {fileID: 1034971035523742758}
   m_Layer: 5
   m_Name: Load Game Button
   m_TagString: Untagged
@@ -3040,7 +3226,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48fa41739c3f6a84db85e2c4434aba09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: Assets/Scenes/Menus.unity
+  scene: Assets/Scenes/PrototypeScene.unity
+--- !u!114 &1034971035523742758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523004269360864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Load the saved game. Not implemented, loads new default game.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523004271278550
 GameObject:
   m_ObjectHideFlags: 0
@@ -3494,6 +3694,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8714523004375199767}
   - component: {fileID: 8714523004375199766}
+  - component: {fileID: 9142932744247696845}
   m_Layer: 5
   m_Name: Hard
   m_TagString: Untagged
@@ -3570,6 +3771,20 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &9142932744247696845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523004375199752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Hard. Difficulty scaling not implemented.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523004403963014
 GameObject:
   m_ObjectHideFlags: 0
@@ -4143,6 +4358,7 @@ GameObject:
   - component: {fileID: 8714523004597909988}
   - component: {fileID: 8714523004597909989}
   - component: {fileID: 8714523004597909986}
+  - component: {fileID: 4731786849322317256}
   m_Layer: 5
   m_Name: Resolution Dropdown
   m_TagString: Untagged
@@ -4281,6 +4497,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a60d5a67af66a846baf99bb988060f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4731786849322317256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523004597909991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Choose a resolution to display at.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523004615408566
 GameObject:
   m_ObjectHideFlags: 0
@@ -4754,6 +4984,7 @@ GameObject:
   - component: {fileID: 8714523004761137448}
   - component: {fileID: 8714523004761137449}
   - component: {fileID: 8714523004761137462}
+  - component: {fileID: 4900913150022748897}
   m_Layer: 5
   m_Name: Quit Button
   m_TagString: Untagged
@@ -4875,6 +5106,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2a44ee9a80041e408f5b2ae65d749c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4900913150022748897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523004761137451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Close game.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523004778798265
 GameObject:
   m_ObjectHideFlags: 0
@@ -4888,6 +5133,7 @@ GameObject:
   - component: {fileID: 8714523004778798214}
   - component: {fileID: 8714523004778798215}
   - component: {fileID: 8714523004778798212}
+  - component: {fileID: 8188217158489857101}
   m_Layer: 5
   m_Name: Close Button
   m_TagString: Untagged
@@ -5010,6 +5256,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+--- !u!114 &8188217158489857101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523004778798265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Go back to main menu.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523004785090040
 GameObject:
   m_ObjectHideFlags: 0
@@ -5023,6 +5283,7 @@ GameObject:
   - component: {fileID: 8714523004785089989}
   - component: {fileID: 8714523004785089990}
   - component: {fileID: 8714523004785089987}
+  - component: {fileID: 1652811579979401781}
   m_Layer: 5
   m_Name: New Game Button
   m_TagString: Untagged
@@ -5145,6 +5406,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 1
+--- !u!114 &1652811579979401781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523004785090040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Go to game setup options.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523004818842043
 GameObject:
   m_ObjectHideFlags: 0
@@ -5234,6 +5509,7 @@ GameObject:
   - component: {fileID: 8714523004833491781}
   - component: {fileID: 8714523004833491782}
   - component: {fileID: 8714523004833491779}
+  - component: {fileID: 3046036688119617297}
   m_Layer: 5
   m_Name: Credits Button
   m_TagString: Untagged
@@ -5356,6 +5632,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 3
+--- !u!114 &3046036688119617297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523004833491832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Show the nerds who made this.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523004875387654
 GameObject:
   m_ObjectHideFlags: 0
@@ -5555,6 +5845,7 @@ GameObject:
   - component: {fileID: 8714523004935521884}
   - component: {fileID: 8714523004935521885}
   - component: {fileID: 8714523004935521882}
+  - component: {fileID: 7454941008693747814}
   m_Layer: 5
   m_Name: Close Button
   m_TagString: Untagged
@@ -5677,6 +5968,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+--- !u!114 &7454941008693747814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523004935521887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Go back to main menu.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523004960264830
 GameObject:
   m_ObjectHideFlags: 0
@@ -6267,6 +6572,7 @@ GameObject:
   - component: {fileID: 8714523005118596890}
   - component: {fileID: 8714523005118596888}
   - component: {fileID: 8714523005118596889}
+  - component: {fileID: 3568750356794044704}
   m_Layer: 5
   m_Name: SFX Slider
   m_TagString: Untagged
@@ -6375,6 +6681,20 @@ MonoBehaviour:
   mixer: {fileID: 0}
   range: {x: -20, y: 0}
   exposedParamName: 
+--- !u!114 &3568750356794044704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523005118596892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Choose sfx volume. Does not mute.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523005141124605
 GameObject:
   m_ObjectHideFlags: 0
@@ -6460,6 +6780,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8714523005150642375}
   - component: {fileID: 8714523005150642374}
+  - component: {fileID: 4506121947172883777}
   m_Layer: 5
   m_Name: Easy
   m_TagString: Untagged
@@ -6536,6 +6857,20 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &4506121947172883777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523005150642424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Easy. Difficulty scaling not implemented.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523005152075262
 GameObject:
   m_ObjectHideFlags: 0
@@ -6851,7 +7186,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Harpoon (Hard)
+  m_Text: Harpoon
 --- !u!1 &8714523005167057944
 GameObject:
   m_ObjectHideFlags: 0
@@ -7292,6 +7627,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8714523005257924424}
   - component: {fileID: 8714523005257924439}
+  - component: {fileID: 755931962181601180}
   m_Layer: 5
   m_Name: Hint Toggle
   m_TagString: Untagged
@@ -7368,6 +7704,20 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &755931962181601180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523005257924425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Show UI hints for dangerous moves. Not implemented.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523005312042274
 GameObject:
   m_ObjectHideFlags: 0
@@ -7380,6 +7730,7 @@ GameObject:
   - component: {fileID: 8714523005312042272}
   - component: {fileID: 8714523005312042286}
   - component: {fileID: 8714523005312042287}
+  - component: {fileID: 1337551699351487867}
   m_Layer: 5
   m_Name: Music Slider
   m_TagString: Untagged
@@ -7488,6 +7839,20 @@ MonoBehaviour:
   mixer: {fileID: 0}
   range: {x: -20, y: 0}
   exposedParamName: 
+--- !u!114 &1337551699351487867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714523005312042274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da5dcb13ddeb7d48bcf27bcdf7cc597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayText: Control music volume. Does not mute.
+  displayArea: {fileID: 946372320637690874}
 --- !u!1 &8714523005432961208
 GameObject:
   m_ObjectHideFlags: 0
