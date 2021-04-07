@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using BigBoi.Menus;
 
 using Serializable = System.SerializableAttribute;
 
@@ -22,10 +23,14 @@ namespace TurnBasedStrategy.Gameplay
         }
         #endregion
 
+        private GameSceneMenuManager menuManager;
+
         private void Start()
         {
             StartCoroutine(SpawnStartingUnits());
             SetWinConditionText();
+
+            menuManager = FindObjectOfType<GameSceneMenuManager>();
         }
 
         #region win/lose game
@@ -45,18 +50,29 @@ namespace TurnBasedStrategy.Gameplay
         {
             //if enough turns have passed, win the game
             if (winCondition == WinCondition.surviveTurns && TurnControl.instance.TurnNumber > winConditionValue) WinGame();
+            //bug: if goal is 3 turns, this only triggers at start of 5th turn
+            //suggestion: call this on end turn and >= instead of >
+
         }
 
         public void WinGame()
         {
             //To do: Win screen
-            SceneManager.LoadScene(0);
+
+            menuManager.EnablePanelByIndex(3); //win panel
+            //suggestion: disable selecting units here?
+            //same for lose game method
+
+            //SceneManager.LoadScene(0);
         }
 
         public void LoseGame()
         {
             //To do: Lose screen
-            SceneManager.LoadScene(0);
+
+            menuManager.EnablePanelByIndex(4); //lose panel
+
+            //SceneManager.LoadScene(0);
         }
 
         void SetWinConditionText()
