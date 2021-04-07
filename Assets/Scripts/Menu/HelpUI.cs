@@ -17,10 +17,7 @@ namespace TurnBasedStrategy.Menus
             toggle = GetComponent<Toggle>();
 
             toggle.isOn = showHelpfulUI;
-
-            
         }
-
 
         public void ShowHelpfulUI(bool _show)
         {

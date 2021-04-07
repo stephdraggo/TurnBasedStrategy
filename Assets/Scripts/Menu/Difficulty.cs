@@ -1,62 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using BigBoi.Menus;
 
 namespace TurnBasedStrategy.Menus
 {
+    /// <summary>
+    /// Automated, just make sure the toggles are attached in order: easy, medium, hard.
+    /// </summary>
     [AddComponentMenu("Turn Based Strategy/Difficulty Selection")]
-    public class Difficulty : MonoBehaviour
+    public class Difficulty : ToggleSingleSelector
     {
         /// <summary>
         /// Difficulty for current game.
         /// </summary>
         public static DifficultyLevel difficulty;
 
+        /// <summary>
+        /// Change difficulty.
+        /// </summary>
+        public void SelectDifficulty(DifficultyLevel _level)
+        {
+            difficulty = _level;
+        }
 
-        [SerializeField, Tooltip("Difficulty selection toggle.")]
-        private Toggle easy, medium, hard;
-
-        void Start()
+        /// <summary>
+        /// Add specific difficulty selection functionality and toggle "easy" on.
+        /// </summary>
+        protected override void ToggleActiveOnStart()
         {
             difficulty = DifficultyLevel.Easy;
 
-            SelectEasy();
+            toggles[0].onValueChanged.AddListener(data => SelectDifficulty(DifficultyLevel.Easy));
+            toggles[1].onValueChanged.AddListener(data => SelectDifficulty(DifficultyLevel.Medium));
+            toggles[2].onValueChanged.AddListener(data => SelectDifficulty(DifficultyLevel.Hard));
+
+            toggles[0].SetIsOnWithoutNotify(true);
         }
 
-        #region Canvas Methods
-        public void SelectEasy()
-        {
-            {
-                difficulty = DifficultyLevel.Easy;
-
-                easy.isOn = true;
-                medium.isOn = false;
-                hard.isOn = false;
-            }
-        }
-        public void SelectMedium()
-        {
-            {
-                difficulty = DifficultyLevel.Medium;
-
-                easy.isOn = false;
-                medium.isOn = true;
-                hard.isOn = false;
-            }
-        }
-        public void SelectHard()
-        {
-            {
-                difficulty = DifficultyLevel.Hard;
-
-                easy.isOn = false;
-                medium.isOn = false;
-                hard.isOn = true;
-            }
-        }
-        #endregion
-
+        /// <summary>
+        /// The level difficulty.
+        /// </summary>
         public enum DifficultyLevel
         {
             Easy,

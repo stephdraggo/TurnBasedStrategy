@@ -2393,19 +2393,7 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1988659659}
-        m_TargetAssemblyTypeName: TurnBasedStrategy.Menus.Difficulty, Assembly-CSharp
-        m_MethodName: SelectMedium
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 1
 --- !u!114 &5561675214857932778
 MonoBehaviour:
@@ -3439,10 +3427,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b524511086e1f74587452f88c2024cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  easy: {fileID: 8714523005150642374}
-  medium: {fileID: 8714523004081216501}
-  hard: {fileID: 8714523004375199766}
-  helpAvailable: {fileID: 8714523005257924439}
+  toggles:
+  - {fileID: 8714523005150642374}
+  - {fileID: 8714523004081216501}
+  - {fileID: 8714523004375199766}
 --- !u!1 &8714523004273082067
 GameObject:
   m_ObjectHideFlags: 0
@@ -3798,19 +3786,7 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1988659659}
-        m_TargetAssemblyTypeName: TurnBasedStrategy.Menus.Difficulty, Assembly-CSharp
-        m_MethodName: SelectHard
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 1
 --- !u!114 &9142932744247696845
 MonoBehaviour:
@@ -6896,19 +6872,7 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1988659659}
-        m_TargetAssemblyTypeName: TurnBasedStrategy.Menus.Difficulty, Assembly-CSharp
-        m_MethodName: SelectEasy
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 1
 --- !u!114 &4506121947172883777
 MonoBehaviour:
