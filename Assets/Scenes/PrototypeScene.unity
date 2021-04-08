@@ -960,6 +960,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 567978239620296414, guid: d9be6f77f8c7b13438e16bac6b5399ef, type: 3}
+      propertyPath: enableGame.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 818160940}
+    - target: {fileID: 567978239620296414, guid: d9be6f77f8c7b13438e16bac6b5399ef, type: 3}
+      propertyPath: disableGame.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 818160940}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9be6f77f8c7b13438e16bac6b5399ef, type: 3}
 --- !u!1 &1888279470
