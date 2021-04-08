@@ -1172,24 +1172,35 @@ MonoBehaviour:
   - panelObject: {fileID: 567978241270333059}
     activeOnStart: 0
     alwaysVisible: 0
+    disableGame: 1
     type: 3
   - panelObject: {fileID: 567978239353735441}
     activeOnStart: 1
     alwaysVisible: 1
+    disableGame: 0
     type: 0
   - panelObject: {fileID: 2804987937120222374}
     activeOnStart: 0
     alwaysVisible: 0
+    disableGame: 1
     type: 2
   - panelObject: {fileID: 3649761161915207799}
     activeOnStart: 0
     alwaysVisible: 0
+    disableGame: 1
     type: 4
   - panelObject: {fileID: 1096354165744334850}
     activeOnStart: 0
     alwaysVisible: 0
+    disableGame: 1
     type: 4
   keyToCallPause: 112
+  disableGame:
+    m_PersistentCalls:
+      m_Calls: []
+  enableGame:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &567978239770519415
 GameObject:
   m_ObjectHideFlags: 0
