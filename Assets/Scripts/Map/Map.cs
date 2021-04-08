@@ -335,7 +335,7 @@ namespace TurnBasedStrategy.Gameplay
                     }
 
                     //move to it
-                    unit.GoToTile(targetTile);
+                    unit.MoveToTile(targetTile);
                 } 
             }
 

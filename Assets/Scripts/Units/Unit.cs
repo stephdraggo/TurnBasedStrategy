@@ -130,6 +130,10 @@ namespace TurnBasedStrategy.Gameplay
             _tile.SetUnit(this);
         }
 
+        /// <summary>
+        /// remove the unit from the current tile and use navmesh to move to the new one
+        /// </summary>
+        /// <param name="_tile">Tile to move to</param>
         public void MoveToTile(Tile _tile)
         {
             if (currentTile) currentTile.RemoveUnit();
