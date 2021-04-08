@@ -29,6 +29,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5791539473809840792}
   - component: {fileID: 5791539473809840795}
+  - component: {fileID: 4756599078575885677}
+  - component: {fileID: 1095811566603361046}
   m_Layer: 0
   m_Name: Crab
   m_TagString: Untagged
@@ -69,6 +71,45 @@ MonoBehaviour:
   attackDamage: 3
   movement: 3
   walkableTiles: 00000000
+--- !u!195 &4756599078575885677
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5791539473809840796}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1095811566603361046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5791539473809840796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4b8f238d0ca3404d88688082323b420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  randomiseSpeed: 0
+  range: {x: 1, y: 20}
+  speedChange: 0
+  interval: 0
 --- !u!1 &6049583737752707359
 GameObject:
   m_ObjectHideFlags: 0
