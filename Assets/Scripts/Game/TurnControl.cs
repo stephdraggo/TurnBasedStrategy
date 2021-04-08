@@ -135,14 +135,14 @@ namespace TurnBasedStrategy.Gameplay
                 //Spawn hooks
                 GameControl.instance.SpawnEnemies();
 
-                GameControl.instance.StartPlayerTurn();
-
                 //enable end turn button
                 SetEndTurnButtonInteractable(true);
 
                 //increase the turn number
                 turnNumber++;
                 SetTurnNumberText();
+
+                GameControl.instance.StartPlayerTurn();
 
                 //set turn to player and reload all units
                 currentTurn = UnitTeam.player;

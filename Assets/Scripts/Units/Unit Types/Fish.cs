@@ -15,8 +15,19 @@ namespace TurnBasedStrategy.Gameplay
 
         public override void Setup(int _startTileX, int _startTileY)
         {
-            //if on the left side of the map, set exit tile to the right side and vice-versa
-            int exitTileX = (_startTileX < Map.instance.GridSize.x / 2) ? Map.instance.GridSize.x - 1 : 0;
+            //set exit tile and direction facing based on which side of the map the fish starts on
+            int exitTileX;
+            if (_startTileX < Map.instance.GridSize.x / 2)
+            {
+                exitTileX = Map.instance.GridSize.x - 1;
+                model.transform.localRotation = Quaternion.Euler(0, 90, 0);
+            }
+            else
+            {
+                //if moving left, flip the model
+                exitTileX = 0;
+                model.transform.localRotation = Quaternion.Euler(0, -90, 0);
+            }
             int exitTileY = _startTileY;
 
             exitTile = Map.instance.Tiles[exitTileX, exitTileY];

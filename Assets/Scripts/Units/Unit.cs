@@ -40,6 +40,7 @@ namespace TurnBasedStrategy.Gameplay
         public Tile CurrentTile => currentTile;
 
         UnitHUD unitHUD;
+        protected MeshRenderer model;
 
         public bool Acted { get; private set; }
 
@@ -53,10 +54,16 @@ namespace TurnBasedStrategy.Gameplay
         {
             currentHealth = health;
 
-            unitHUD = GetComponentInChildren<UnitHUD>();
             unitHUD.SetHealthBarFillAmount(1);
 
             GoToStartTile(_startTileX, _startTileY);
+        }
+
+        private void Awake()
+        {
+            //get references
+            unitHUD = GetComponentInChildren<UnitHUD>();
+            model = GetComponentInChildren<MeshRenderer>();
         }
 
         /// <summary>

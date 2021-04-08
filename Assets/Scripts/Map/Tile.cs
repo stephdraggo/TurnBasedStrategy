@@ -65,8 +65,10 @@ namespace TurnBasedStrategy.Gameplay
 
         private void OnMouseUp()
         {
-            //tell the map instance to select this tile
-            Map.instance.OnClickTile(this, selectionState);
+            //If the game is not over
+            if (GameControl.instance.IsPlaying)
+                //tell the map instance to select this tile
+                Map.instance.OnClickTile(this, selectionState);
         }
 
         /// <summary>

@@ -23,12 +23,27 @@ namespace TurnBasedStrategy.Gameplay
         }
         #endregion
 
+        #region stop/start unit selection
+
+        bool isPlaying = true;
+        public bool IsPlaying => isPlaying;
+
+        //Allows selection
+        public void TurnOnSelection() => isPlaying = true;
+
+        //stops selection
+        public void TurnOffSelection() => isPlaying = false;
+
+        #endregion
+
         private GameSceneMenuManager menuManager;
 
         private void Start()
         {
             StartCoroutine(SpawnStartingUnits());
             SetWinConditionText();
+
+            TurnOnSelection();
 
             menuManager = FindObjectOfType<GameSceneMenuManager>();
         }
@@ -50,29 +65,17 @@ namespace TurnBasedStrategy.Gameplay
         {
             //if enough turns have passed, win the game
             if (winCondition == WinCondition.surviveTurns && TurnControl.instance.TurnNumber > winConditionValue) WinGame();
-            //bug: if goal is 3 turns, this only triggers at start of 5th turn
-            //suggestion: call this on end turn and >= instead of >
 
         }
 
         public void WinGame()
         {
-            //To do: Win screen
-
             menuManager.EnablePanelByIndex(3); //win panel
-            //suggestion: disable selecting units here?
-            //same for lose game method
-
-            //SceneManager.LoadScene(0);
         }
 
         public void LoseGame()
         {
-            //To do: Lose screen
-
             menuManager.EnablePanelByIndex(4); //lose panel
-
-            //SceneManager.LoadScene(0);
         }
 
         void SetWinConditionText()
