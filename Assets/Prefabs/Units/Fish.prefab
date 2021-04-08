@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 5791539473809840792}
   - component: {fileID: 342397017514480741}
   - component: {fileID: -1397440944192158471}
+  - component: {fileID: 1007571685239204565}
   m_Layer: 0
   m_Name: Fish
   m_TagString: Untagged
@@ -154,6 +155,23 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1007571685239204565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5791539473809840796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4b8f238d0ca3404d88688082323b420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  randomiseSpeed: 0
+  range: {x: 1, y: 20}
+  speedChange: 0
+  interval: 0
 --- !u!1001 &3846868823003856070
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -261,7 +261,8 @@ namespace TurnBasedStrategy.Gameplay
             Deselect();
 
             //move the unit on the currently selected tile to the tile
-            unit.GoToTile(_tile);
+            //unit.GoToTile(_tile);
+            unit.MoveToTile(_tile);
 
             //get the enemies adjacent to this unit
             List<Tile> rangeTiles = unit.EnemiesInRange();

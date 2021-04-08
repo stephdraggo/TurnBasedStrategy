@@ -39,7 +39,7 @@ namespace TurnBasedStrategy.Gameplay
             if (tile == null ) tile = GetRandomMoveableTile();
 
             //move to the tile if one was found
-            if (tile != null) GoToTile(tile);
+            if (tile != null) MoveToTile(tile);
         }
 
         /// <summary>

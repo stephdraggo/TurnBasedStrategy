@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BigBoi.AI;
 
 using System.Linq;
 
@@ -117,12 +118,31 @@ namespace TurnBasedStrategy.Gameplay
         {
             if (currentTile) currentTile.RemoveUnit();
             currentTile = _tile;
-            //2D board:
-            //transform.position = new Vector3(_tile.transform.position.x, _tile.transform.position.y, transform.position.z);
-            //3D board:
+
+            FreeMovement freeMovement = GetComponent<FreeMovement>();
+            if (freeMovement)
+            {
+                freeMovement.ChangeTarget(_tile.transform.position);
+            }
+
             transform.position = _tile.transform.position;
 
             _tile.SetUnit(this);
+        }
+
+        public void MoveToTile(Tile _tile)
+        {
+            if (currentTile) currentTile.RemoveUnit();
+            currentTile = _tile;
+
+            FreeMovement freeMovement = GetComponent<FreeMovement>();
+            if (freeMovement)
+            {
+                freeMovement.ChangeTarget(_tile.transform.position);
+            }
+
+            _tile.SetUnit(this);
+
         }
 
 

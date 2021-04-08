@@ -121,7 +121,7 @@ namespace TurnBasedStrategy.Gameplay
             }
                 
             //Go to the tile
-            GoToTile(targetTile);
+            MoveToTile(targetTile);
 
             //return whether the unit can still move
             return reachedWithExtraMoves;
