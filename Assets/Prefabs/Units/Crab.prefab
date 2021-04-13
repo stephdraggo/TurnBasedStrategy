@@ -254,6 +254,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1019196240513497822, guid: 969596b6fb0b16341b44f69d6a1747d1, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f574939466250ec47ac5e5cb91ec57fb, type: 2}
     - target: {fileID: 919132149155446097, guid: 969596b6fb0b16341b44f69d6a1747d1, type: 3}
       propertyPath: m_Name
       value: Crab
