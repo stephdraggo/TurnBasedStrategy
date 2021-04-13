@@ -10,6 +10,9 @@ namespace TurnBasedStrategy.Gameplay
         [SerializeField] int hooksAtATime = 1;
         int hooksInMap = 0;
 
+        [SerializeField] Transform lineStartPoint;
+        public Transform LineStartPoint => lineStartPoint;
+
         int positionX;
         public int PositionX => positionX;
 

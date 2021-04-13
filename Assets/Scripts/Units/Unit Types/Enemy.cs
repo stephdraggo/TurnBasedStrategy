@@ -12,6 +12,8 @@ namespace TurnBasedStrategy.Gameplay
         public override UnitTeam GetTeam() => UnitTeam.enemy;
         public override UnitTeam[] GetOpposingTeams() => new UnitTeam[] { UnitTeam.player, UnitTeam.fish };
 
+        Line line;
+
         #region take turn
         protected override IEnumerator TakeTurnRoutine()
         {
@@ -128,7 +130,18 @@ namespace TurnBasedStrategy.Gameplay
         }
         #endregion
 
-        public void SetBoat(Boat _boat) => boat = _boat;
+        public void SetBoat(Boat _boat)
+        {
+            boat = _boat;
+
+            //Line connecting
+            if (GetComponentInChildren<Line>())
+            {
+                line = GetComponentInChildren<Line>();
+                line.ConnectLine(boat.LineStartPoint);
+            }
+        }
+
 
         protected override void DestroyUnit()
         {
