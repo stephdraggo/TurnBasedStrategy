@@ -53,18 +53,20 @@ namespace TurnBasedStrategy.Gameplay
         enum WinCondition
         {
             surviveTurns,
-            defeatBoats
+            defeatBoats,
+            both
         }
 
         [SerializeField] WinCondition winCondition;
-        [SerializeField] int winConditionValue;
-
+        [SerializeField] int turnSurviveGoal;
+        [SerializeField] int boatDefeatGoal;
+            
         [SerializeField] Text winConditionText;
 
         public void StartPlayerTurn()
         {
             //if enough turns have passed, win the game
-            if (winCondition == WinCondition.surviveTurns && TurnControl.instance.TurnNumber > winConditionValue) WinGame();
+            if (winCondition != WinCondition.defeatBoats && TurnControl.instance.TurnNumber > turnSurviveGoal) WinGame();
 
         }
 
@@ -82,9 +84,11 @@ namespace TurnBasedStrategy.Gameplay
         {
             switch (winCondition)
             {
-                case WinCondition.surviveTurns: winConditionText.text = "Survive " + winConditionValue + " turn" + (winConditionValue - boatsDestroyed != 1 ? "s" : "");
+                case WinCondition.surviveTurns: winConditionText.text = "Survive " + turnSurviveGoal + " turn" + (turnSurviveGoal != 1 ? "s" : "");
                     break;
-                case WinCondition.defeatBoats: winConditionText.text = "Defeat " + (winConditionValue - boatsDestroyed) + " boat" + (winConditionValue - boatsDestroyed != 1 ? "s" : "");
+                case WinCondition.defeatBoats: winConditionText.text = "Defeat " + boatDefeatGoal + " boat" + (boatDefeatGoal != 1 ? "s" : "");
+                    break;
+                case WinCondition.both: winConditionText.text = "Survive " + turnSurviveGoal + " turn" + (turnSurviveGoal != 1 ? "s" : "") + " or " + "Defeat " + boatDefeatGoal + " boat" + (boatDefeatGoal != 1 ? "s" : "");
                     break;
             }
         }
@@ -268,7 +272,7 @@ namespace TurnBasedStrategy.Gameplay
 
             boatsDestroyed++;
 
-            if (winCondition == WinCondition.defeatBoats && boatsDestroyed >= winConditionValue) WinGame();
+            if (winCondition != WinCondition.surviveTurns && boatsDestroyed >= boatDefeatGoal) WinGame();
         }
 
         void SpawnHooks()
