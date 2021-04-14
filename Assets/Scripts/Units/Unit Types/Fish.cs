@@ -10,9 +10,14 @@ namespace TurnBasedStrategy.Gameplay
     {
         Tile exitTile;
 
+        bool caught = false;
+        public bool IsCaught() => caught;
+        Enemy hook;
+
         public override UnitTeam GetTeam() => UnitTeam.fish;
         public override UnitTeam[] GetOpposingTeams() => new UnitTeam[] { UnitTeam.enemy };
 
+        #region setup
         public override void Setup(int _startTileX, int _startTileY)
         {
             //set exit tile and direction facing based on which side of the map the fish starts on
@@ -59,28 +64,39 @@ namespace TurnBasedStrategy.Gameplay
             base.Setup(_startTileX, _startTileY);
         }
 
+        #endregion
+
+        #region take turn
         protected override IEnumerator TakeTurnRoutine()
         {
-            bool leave;
-
-            //if on the exit tile, do not move
-            if (currentTile.GridPosition.x == exitTile.GridPosition.x) leave = true;
+            if (caught)
+            {
+                TurnControl.instance.NextUnitMove();
+            }
             else
             {
-                leave = FishMove();
-                yield return new WaitForSeconds(TurnControl.instance.WaitTime);
+                bool leave;
 
+                //if on the exit tile, do not move
+                if (currentTile.GridPosition.x == exitTile.GridPosition.x) leave = true;
+                else
+                {
+                    leave = FishMove();
+                    yield return new WaitForSeconds(TurnControl.instance.WaitTime);
+
+                }
+
+                //If the fish is leaving, destroy it
+                if (leave)
+                {
+                    HideUnit();
+                    yield return new WaitForSeconds(TurnControl.instance.WaitTime);
+                    TurnControl.instance.NextUnitMove();
+                    DestroyUnit();
+                }
+                else TurnControl.instance.NextUnitMove();
             }
-            
-            //If the fish is leaving, destroy it
-            if (leave)
-            {
-                HideUnit();
-                yield return new WaitForSeconds(TurnControl.instance.WaitTime);
-                TurnControl.instance.NextUnitMove();
-                DestroyUnit();
-            }
-            else TurnControl.instance.NextUnitMove();
+           
         }
 
         /// <summary>
@@ -128,7 +144,38 @@ namespace TurnBasedStrategy.Gameplay
 
         }
 
+        #endregion
+
+        #region getting caught
         
+        public bool Catch(Enemy _hook)
+        {
+            if (caught) return false;
+
+            hook = _hook;
+            caught = true;
+            freeMovement.enabled = false;
+
+            TurnControl.instance.RemoveUnit(this, UnitTeam.fish);
+
+            return true;
+        }
+
+        public void Release(Tile _tile)
+        {
+            freeMovement.enabled = true;
+            hook = null;
+            caught = false;
+
+            GoToTile(_tile);
+
+            TurnControl.instance.AddUnit(this, UnitTeam.fish);
+        }
+
+
+
+
+        #endregion
 
 
     }

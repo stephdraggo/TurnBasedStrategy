@@ -74,6 +74,13 @@ namespace TurnBasedStrategy.Gameplay
 
         }
 
+        public void RetrieveHook()
+        {
+            //Move a hook from the map count to the onHand count
+            hooksInMap--;
+            hookCount++;
+        }
+
         public void RemoveHook()
         {
             hooksInMap--;

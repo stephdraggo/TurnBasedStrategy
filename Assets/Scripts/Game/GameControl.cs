@@ -14,6 +14,9 @@ namespace TurnBasedStrategy.Gameplay
     /// </summary>
     public class GameControl : MonoBehaviour
     {
+        
+        bool playerTurn;
+
         #region instance
         public static GameControl instance;
         private void Awake()
@@ -68,6 +71,17 @@ namespace TurnBasedStrategy.Gameplay
             //if enough turns have passed, win the game
             if (winCondition != WinCondition.defeatBoats && TurnControl.instance.TurnNumber > turnSurviveGoal) WinGame();
 
+            playerTurn = true;
+
+            SetOrcaButtonText();
+
+        }
+
+        public void EndPlayerTurn() 
+        {
+            playerTurn = false;
+
+            SetOrcaButtonText();
         }
 
         public void WinGame()
@@ -281,6 +295,36 @@ namespace TurnBasedStrategy.Gameplay
         }
         #endregion
 
+        #region orca
 
+        [Header("Orca")]
+        [SerializeField] int orcaCount = 1;
+        [SerializeField] Button orcaButton;
+        [SerializeField] Text orcaButtonText;
+
+        [SerializeField] GameObject orcaPrefab;
+        [SerializeField] float orcaDestroyTimer = 3f;
+
+        public void UseOrca()
+        {
+            if (!playerTurn) return;
+            if (orcaCount <= 0) return;
+
+            GameObject orcaObject = Instantiate(orcaPrefab, transform.position, Quaternion.identity);
+            Destroy(orcaObject, orcaDestroyTimer);
+            TurnControl.instance.DestroyAllHooks();
+            orcaCount--;
+
+            SetOrcaButtonText();
+        }
+
+        void SetOrcaButtonText()
+        {
+            //Disable the orca button if it is not the player turn or orca count is 0
+            orcaButton.interactable = (playerTurn && orcaCount > 0);
+            orcaButtonText.text = "Orca (" + orcaCount + ")"; 
+        }
+
+        #endregion
     }
 }

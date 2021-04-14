@@ -185,6 +185,10 @@ PrefabInstance:
       propertyPath: showActIcon
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2474970516347427696, guid: d0b338e0313e29946b2a8822900bd67f, type: 3}
+      propertyPath: showHealthBar
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5000394826567328739, guid: d0b338e0313e29946b2a8822900bd67f, type: 3}
       propertyPath: m_Name
       value: UnitHUD

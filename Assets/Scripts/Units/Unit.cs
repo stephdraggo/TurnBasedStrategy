@@ -43,6 +43,8 @@ namespace TurnBasedStrategy.Gameplay
         UnitHUD unitHUD;
         protected MeshRenderer model;
 
+        protected FreeMovement freeMovement;
+
         public bool Acted { get; private set; }
 
         #endregion
@@ -53,6 +55,9 @@ namespace TurnBasedStrategy.Gameplay
         /// </summary>
         public virtual void Setup(int _startTileX, int _startTileY)
         {
+
+            freeMovement = GetComponent<FreeMovement>();
+
             currentHealth = health;
 
             unitHUD.SetHealthBarFillAmount(1);
@@ -114,10 +119,12 @@ namespace TurnBasedStrategy.Gameplay
         /// remove the unit from the current tile and teleport it to the new one
         /// </summary>
         /// <param name="_tile">Tile to move to</param>
-        public void GoToTile(Tile _tile)
+        /// <param name ="_caughtFish">Set to true if the unit being moved is a fish moving onto a hook</param>
+        public void GoToTile(Tile _tile, bool _caughtFish = false)
         {
             if (currentTile) currentTile.RemoveUnit();
-            currentTile = _tile;
+            if (!_caughtFish) currentTile = _tile;
+            else currentTile = null;
 
             FreeMovement freeMovement = GetComponent<FreeMovement>();
             if (freeMovement)
@@ -127,7 +134,7 @@ namespace TurnBasedStrategy.Gameplay
 
             transform.position = _tile.transform.position;
 
-            _tile.SetUnit(this);
+            if (!_caughtFish) _tile.SetUnit(this);
         }
 
         /// <summary>
@@ -139,7 +146,7 @@ namespace TurnBasedStrategy.Gameplay
             if (currentTile) currentTile.RemoveUnit();
             currentTile = _tile;
 
-            FreeMovement freeMovement = GetComponent<FreeMovement>();
+            
             if (freeMovement)
             {
                 freeMovement.ChangeTarget(_tile.transform.position);
@@ -251,9 +258,9 @@ namespace TurnBasedStrategy.Gameplay
             if (currentHealth <= 0) DestroyUnit();
         }
 
-        protected virtual void DestroyUnit()
+        public virtual void DestroyUnit()
         {
-            currentTile.RemoveUnit();
+            if (currentTile && currentTile.CurrentUnit == this) currentTile.RemoveUnit();
             TurnControl.instance.RemoveUnit(this, GetTeam());
             Destroy(gameObject);
         }
