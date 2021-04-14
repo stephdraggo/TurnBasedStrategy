@@ -107,6 +107,9 @@ namespace TurnBasedStrategy.Gameplay
             //if player turn, start fish turn
             if (currentTurn == UnitTeam.player)
             {
+                //Debug.Log("starting fish turn");
+                GameControl.instance.EndPlayerTurn();
+
                 //stop all player units from moving any more
                 foreach (Unit unit in playerTeam)
                 {
@@ -123,6 +126,7 @@ namespace TurnBasedStrategy.Gameplay
             //if fish turn, spawn new fish and start enemy turn
             else if (currentTurn == UnitTeam.fish)
             {
+                //Debug.Log("starting enemy turn");
                 //Spawn fish
                 GameControl.instance.SpawnFish();
 
@@ -132,6 +136,7 @@ namespace TurnBasedStrategy.Gameplay
             //if enemy turn, spawn new enemies and start player turn
             else if (currentTurn == UnitTeam.enemy)
             {
+                //Debug.Log("starting player turn");
                 //Spawn hooks
                 GameControl.instance.SpawnEnemies();
 
@@ -214,6 +219,19 @@ namespace TurnBasedStrategy.Gameplay
         void SetEndTurnButtonInteractable(bool _interactable) => endTurnButton.interactable = _interactable;
 
         void SetTurnNumberText() => turnNumberText.text = "Turn " + turnNumber;
+
+        #endregion
+
+        #region Destroy hooks
+
+        public void DestroyAllHooks()
+        {
+            int enemyCount = enemyTeam.Count;
+            for(int i = 0; i < enemyCount; i++)
+            {
+                enemyTeam[0].DestroyUnit();
+            }
+        }
 
         #endregion
 
