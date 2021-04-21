@@ -15172,14 +15172,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc2c73f14f7431743a21b92c0fff74f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSettings:
+  easySettings:
+    winCondition: 0
+    turnSurviveGoal: 10
+    boatDefeatGoal: 0
+    startingCrabs: 2
+  normalSettings:
     winCondition: 2
     turnSurviveGoal: 15
     boatDefeatGoal: 3
     startingCrabs: 1
+  hardSettings:
+    winCondition: 1
+    turnSurviveGoal: 0
+    boatDefeatGoal: 3
+    startingCrabs: 0
   winConditionText: {fileID: 1388475350}
   crabPrefab: {fileID: 5791539473809840795, guid: 979c93ec397d07b40a032d75bae3ad9a, type: 3}
-  kingCrabPrefab: {fileID: 5791539473809840795, guid: 979c93ec397d07b40a032d75bae3ad9a, type: 3}
+  kingCrabPrefab: {fileID: 5791539473809840795, guid: 8ed69651312af404ea53aa3354d658cb, type: 3}
   fishPrefab: {fileID: 342397017514480741, guid: 6dd89faf86a548a4fad86813af477745, type: 3}
   maxFishOnBoard: 5
   startingFishOnBoard: 2

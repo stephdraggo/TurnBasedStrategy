@@ -13,7 +13,7 @@ namespace TurnBasedStrategy.Gameplay {
         [SerializeField] int boatDefeatGoal = 3;
 
         [Header("Crabs")]
-        [SerializeField] int startingCrabs = 1;
+        [SerializeField, Tooltip("Not including king crab")] int startingCrabs = 1;
 
 
         public WinCondition WinCondition => winCondition;

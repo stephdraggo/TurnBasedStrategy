@@ -12,7 +12,7 @@ namespace TurnBasedStrategy.Menus
         /// <summary>
         /// Difficulty for current game.
         /// </summary>
-        public static DifficultyLevel difficulty;
+        public static DifficultyLevel difficulty = DifficultyLevel.Medium;
 
         /// <summary>
         /// Change difficulty.
@@ -27,13 +27,13 @@ namespace TurnBasedStrategy.Menus
         /// </summary>
         protected override void ToggleActiveOnStart()
         {
-            difficulty = DifficultyLevel.Easy;
+            difficulty = DifficultyLevel.Medium;
 
             toggles[0].onValueChanged.AddListener(data => SelectDifficulty(DifficultyLevel.Easy));
             toggles[1].onValueChanged.AddListener(data => SelectDifficulty(DifficultyLevel.Medium));
             toggles[2].onValueChanged.AddListener(data => SelectDifficulty(DifficultyLevel.Hard));
 
-            toggles[0].SetIsOnWithoutNotify(true);
+            toggles[1].SetIsOnWithoutNotify(true);
         }
 
         /// <summary>

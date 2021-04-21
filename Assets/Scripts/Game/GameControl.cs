@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using BigBoi.Menus;
+using TurnBasedStrategy.Menus;
 
 using Serializable = System.SerializableAttribute;
 
@@ -16,6 +17,8 @@ namespace TurnBasedStrategy.Gameplay
         both
     }
 
+   
+
     /// <summary>
     /// Singleton class that handles progression and events with each turn
     /// </summary>
@@ -24,7 +27,8 @@ namespace TurnBasedStrategy.Gameplay
         
         bool playerTurn;
 
-        public GameSettings gameSettings;
+        [SerializeField] GameSettings easySettings, normalSettings, hardSettings;
+        GameSettings gameSettings;
        
 
         #region instance
@@ -53,8 +57,20 @@ namespace TurnBasedStrategy.Gameplay
 
         private void Start()
         {
-            Setup(gameSettings);
+            Difficulty.DifficultyLevel difficultyLevel = Difficulty.difficulty;
+
+            switch (difficultyLevel)
+            {
+                case Difficulty.DifficultyLevel.Easy: Setup(easySettings);
+                    break;
+                case Difficulty.DifficultyLevel.Medium: Setup(normalSettings);
+                    break;
+                case Difficulty.DifficultyLevel.Hard: Setup(hardSettings);
+                    break;
+            }
         }
+
+        
 
         private void Setup(GameSettings _gameSettings)
         {
