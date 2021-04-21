@@ -286,6 +286,10 @@ namespace TurnBasedStrategy.Gameplay
 
             boatsDestroyed++;
 
+            orcaCount += orcaPerBoat;
+
+            SetOrcaButtonText();
+
             if (winCondition != WinCondition.surviveTurns && boatsDestroyed >= boatDefeatGoal) WinGame();
         }
 
@@ -301,6 +305,7 @@ namespace TurnBasedStrategy.Gameplay
         [SerializeField] int orcaCount = 1;
         [SerializeField] Button orcaButton;
         [SerializeField] Text orcaButtonText;
+        [SerializeField] int orcaPerBoat = 1;
 
         [SerializeField] GameObject orcaPrefab;
         [SerializeField] float orcaDestroyTimer = 3f;
