@@ -154,6 +154,8 @@ namespace TurnBasedStrategy.Gameplay
                 foreach (Unit unit in playerTeam)
                 {
                     unit.StartTurn();
+                    //Heal crabs on the bottom of the map
+                    if (unit.CurrentTile.GridPosition.y == 0) unit.Heal(5);
                 }
             }
         }

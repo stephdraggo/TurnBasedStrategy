@@ -258,6 +258,15 @@ namespace TurnBasedStrategy.Gameplay
             if (currentHealth <= 0) DestroyUnit();
         }
 
+        public void Heal(float _amount)
+        {
+            //gain health
+            currentHealth = Mathf.Min(currentHealth + _amount, health);
+
+            //update health bar
+            unitHUD.SetHealthBarFillAmount(currentHealth / health);
+        }
+
         public virtual void DestroyUnit()
         {
             if (currentTile && currentTile.CurrentUnit == this) currentTile.RemoveUnit();
