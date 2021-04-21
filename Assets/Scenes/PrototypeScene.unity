@@ -1281,6 +1281,18 @@ PrefabInstance:
       propertyPath: disableGame.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 818160940}
+    - target: {fileID: 2804987936401593849, guid: d9be6f77f8c7b13438e16bac6b5399ef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2804987936493361095, guid: d9be6f77f8c7b13438e16bac6b5399ef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2804987936892728529, guid: d9be6f77f8c7b13438e16bac6b5399ef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9be6f77f8c7b13438e16bac6b5399ef, type: 3}
 --- !u!1 &1888279470
