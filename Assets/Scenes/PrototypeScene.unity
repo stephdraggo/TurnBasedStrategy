@@ -15172,15 +15172,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc2c73f14f7431743a21b92c0fff74f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  winCondition: 2
-  turnSurviveGoal: 15
-  boatDefeatGoal: 3
+  gameSettings:
+    winCondition: 2
+    turnSurviveGoal: 15
+    boatDefeatGoal: 3
+    startingCrabs: 1
   winConditionText: {fileID: 1388475350}
-  startingUnits:
-  - unitPrefab: {fileID: 5791539473809840795, guid: 979c93ec397d07b40a032d75bae3ad9a, type: 3}
-    startPosition: {x: 0, y: 0}
-  - unitPrefab: {fileID: 5791539473809840795, guid: 979c93ec397d07b40a032d75bae3ad9a, type: 3}
-    startPosition: {x: 4, y: 0}
+  crabPrefab: {fileID: 5791539473809840795, guid: 979c93ec397d07b40a032d75bae3ad9a, type: 3}
+  kingCrabPrefab: {fileID: 5791539473809840795, guid: 979c93ec397d07b40a032d75bae3ad9a, type: 3}
   fishPrefab: {fileID: 342397017514480741, guid: 6dd89faf86a548a4fad86813af477745, type: 3}
   maxFishOnBoard: 5
   startingFishOnBoard: 2
@@ -15196,6 +15195,7 @@ MonoBehaviour:
   orcaCount: 1
   orcaButton: {fileID: 988741861}
   orcaButtonText: {fileID: 631289741}
+  orcaPerBoat: 1
   orcaPrefab: {fileID: 7978265554160651967, guid: f7730305d38e00842bdbe9a884d97ccd, type: 3}
   orcaDestroyTimer: 3
 --- !u!4 &818160941

@@ -9,6 +9,13 @@ using Serializable = System.SerializableAttribute;
 
 namespace TurnBasedStrategy.Gameplay
 {
+    public enum WinCondition
+    {
+        surviveTurns,
+        defeatBoats,
+        both
+    }
+
     /// <summary>
     /// Singleton class that handles progression and events with each turn
     /// </summary>
@@ -16,6 +23,9 @@ namespace TurnBasedStrategy.Gameplay
     {
         
         bool playerTurn;
+
+        public GameSettings gameSettings;
+       
 
         #region instance
         public static GameControl instance;
@@ -43,6 +53,13 @@ namespace TurnBasedStrategy.Gameplay
 
         private void Start()
         {
+            Setup(gameSettings);
+        }
+
+        private void Setup(GameSettings _gameSettings)
+        {
+            gameSettings = _gameSettings;
+
             StartCoroutine(SpawnStartingUnits());
             SetWinConditionText();
 
@@ -53,23 +70,14 @@ namespace TurnBasedStrategy.Gameplay
 
         #region win/lose game
 
-        enum WinCondition
-        {
-            surviveTurns,
-            defeatBoats,
-            both
-        }
 
-        [SerializeField] WinCondition winCondition;
-        [SerializeField] int turnSurviveGoal;
-        [SerializeField] int boatDefeatGoal;
-            
+        [Space(10)]
         [SerializeField] Text winConditionText;
 
         public void StartPlayerTurn()
         {
             //if enough turns have passed, win the game
-            if (winCondition != WinCondition.defeatBoats && TurnControl.instance.TurnNumber > turnSurviveGoal) WinGame();
+            if (gameSettings.WinCondition != WinCondition.defeatBoats && TurnControl.instance.TurnNumber > gameSettings.TurnSurviveGoal) WinGame();
 
             playerTurn = true;
 
@@ -96,13 +104,13 @@ namespace TurnBasedStrategy.Gameplay
 
         void SetWinConditionText()
         {
-            switch (winCondition)
+            switch (gameSettings.WinCondition)
             {
-                case WinCondition.surviveTurns: winConditionText.text = "Survive " + turnSurviveGoal + " turn" + (turnSurviveGoal != 1 ? "s" : "");
+                case WinCondition.surviveTurns: winConditionText.text = "Survive " + gameSettings.TurnSurviveGoal + " turn" + (gameSettings.TurnSurviveGoal != 1 ? "s" : "");
                     break;
-                case WinCondition.defeatBoats: winConditionText.text = "Defeat " + boatDefeatGoal + " boat" + (boatDefeatGoal != 1 ? "s" : "");
+                case WinCondition.defeatBoats: winConditionText.text = "Defeat " + gameSettings.BoatDefeatGoal + " boat" + (gameSettings.BoatDefeatGoal != 1 ? "s" : "");
                     break;
-                case WinCondition.both: winConditionText.text = "Survive " + turnSurviveGoal + " turn" + (turnSurviveGoal != 1 ? "s" : "") + " or " + "Defeat " + boatDefeatGoal + " boat" + (boatDefeatGoal != 1 ? "s" : "");
+                case WinCondition.both: winConditionText.text = "Survive " + gameSettings.TurnSurviveGoal + " turn" + (gameSettings.TurnSurviveGoal != 1 ? "s" : "") + " or " + "Defeat " + gameSettings.BoatDefeatGoal + " boat" + (gameSettings.BoatDefeatGoal != 1 ? "s" : "");
                     break;
             }
         }
@@ -110,13 +118,16 @@ namespace TurnBasedStrategy.Gameplay
         #endregion
 
         #region spawn starting units
-        [Serializable]
+        /*[Serializable]
         struct StartingUnit
         {
             public Unit unitPrefab;
             public Vector2Int startPosition;
         }
         [SerializeField] List<StartingUnit> startingUnits;
+        */
+        [SerializeField] Unit crabPrefab;
+        [SerializeField] Unit kingCrabPrefab;
 
         bool spawning;
 
@@ -126,14 +137,27 @@ namespace TurnBasedStrategy.Gameplay
             StartCoroutine(SpawnStartingFishRoutine());
 
             yield return new WaitUntil(() => !spawning);
-            foreach (StartingUnit _unit in startingUnits)
+
+            Tile spawnTile = Map.instance.GetRandomFreeTile(kingCrabPrefab, new Vector2Int(0, 0), new Vector2Int(Map.instance.GridSize.x - 1, 0));
+            Vector2Int spawnPos = spawnTile.GridPosition;
+            if (UnitSpawner.instance.SpawnUnit(kingCrabPrefab, spawnPos) == null)
             {
-                if (UnitSpawner.instance.SpawnUnit(_unit.unitPrefab, _unit.startPosition) == null)
+                Debug.Log("No free space to spawn King Crab?!");
+            }
+            yield return null;
+
+            for(int i = 0; i < gameSettings.StartingCrabs; i++)
+            {
+                spawnTile = Map.instance.GetRandomFreeTile(crabPrefab, new Vector2Int(0, 0), new Vector2Int(Map.instance.GridSize.x - 1, 0));
+                if (spawnTile == null) continue;
+                spawnPos = spawnTile.GridPosition;
+                if (UnitSpawner.instance.SpawnUnit(crabPrefab, spawnPos) == null)
                 {
-                    Debug.Log("No free space to spawn starting unit!");
+                    Debug.Log("No free space to spawn a crab!");
                 }
                 yield return null;
             }
+
 
             SpawnNewBoat();
             boatSpawnCount = boatSpawnInterval;
@@ -290,7 +314,7 @@ namespace TurnBasedStrategy.Gameplay
 
             SetOrcaButtonText();
 
-            if (winCondition != WinCondition.surviveTurns && boatsDestroyed >= boatDefeatGoal) WinGame();
+            if (gameSettings.WinCondition != WinCondition.surviveTurns && boatsDestroyed >= gameSettings.BoatDefeatGoal) WinGame();
         }
 
         void SpawnHooks()
