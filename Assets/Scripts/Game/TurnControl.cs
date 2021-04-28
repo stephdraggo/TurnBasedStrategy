@@ -68,8 +68,15 @@ namespace TurnBasedStrategy.Gameplay
             switch (_team)
             {
                 case UnitTeam.player:
-                    if (playerTeam.Contains(_unit)) playerTeam.Remove(_unit);
-                    if (playerTeam.Count == 0) PlayerTeamEmpty();
+                    if (playerTeam.Contains(_unit))
+                    {
+                        if (playerTeam[0] == _unit)
+                        {
+                            KingCrabDefeated();
+                        }
+                        playerTeam.Remove(_unit);
+                    }
+                     
                     break;
                 case UnitTeam.enemy:
                     if (enemyTeam.Contains(_unit)) enemyTeam.Remove(_unit);
@@ -91,7 +98,7 @@ namespace TurnBasedStrategy.Gameplay
             }
         }
 
-        void PlayerTeamEmpty() => GameControl.instance.LoseGame();
+        void KingCrabDefeated() => GameControl.instance.LoseGame();
 
         #endregion
 
