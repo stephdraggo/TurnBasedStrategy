@@ -17,6 +17,8 @@ namespace TurnBasedStrategy.Gameplay
         public override UnitTeam GetTeam() => UnitTeam.fish;
         public override UnitTeam[] GetOpposingTeams() => new UnitTeam[] { UnitTeam.enemy };
 
+        [SerializeField] GameObject model;
+
         #region setup
         public override void Setup(int _startTileX, int _startTileY)
         {

@@ -41,7 +41,6 @@ namespace TurnBasedStrategy.Gameplay
         public Tile CurrentTile => currentTile;
 
         UnitHUD unitHUD;
-        protected MeshRenderer model;
 
         protected FreeMovement freeMovement;
 
@@ -68,8 +67,7 @@ namespace TurnBasedStrategy.Gameplay
         private void Awake()
         {
             //get references
-            unitHUD = GetComponentInChildren<UnitHUD>();
-            model = GetComponentInChildren<MeshRenderer>();
+            unitHUD = GetComponentInChildren<UnitHUD>();   
         }
 
         /// <summary>
